@@ -2,7 +2,6 @@ import json
 import os
 
 def load_json(filename):
-    # 构建完整的文件路径
     json_path_local = os.path.join('res', filename + '.json')
     if os.path.exists(json_path_local):
         with open(json_path_local, 'r') as file:
@@ -11,13 +10,10 @@ def load_json(filename):
         return []
 
 def save_json(filename, data):
-    # 构建完整的文件路径
     json_path_local = os.path.join('res', filename + '.json')
-    # 确保文件夹存在
     dir_path = os.path.dirname(json_path_local)
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-    # 写入数据到文件
     with open(json_path_local, 'w') as file:
         json.dump(data, file, indent=4)
 
@@ -56,11 +52,11 @@ def get_c():
 
 def manage_json(filename):
     json_path = os.path.join('res', filename + '.json')
-    data = load_json(filename)  # 加载数据到data中
+    data = load_json(filename)
     while True:
         n = input("请输入n的值(或输入'q'退出）: ")
         if n.lower() == 'q':
-            save_json(filename, data)  # 保存data，而不是d
+            save_json(filename, data)
             break
         try:
             n = int(n)
@@ -86,4 +82,4 @@ def manage_json(filename):
                     data = add_item(data, n, name, c)
                     print(f"[flu]saved as {filename}.")
         except ValueError:
-            print("[flu]请输入有效的n值!")
+            print("[flu]?")
