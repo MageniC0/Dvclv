@@ -1,18 +1,24 @@
-# json_manager.py
 import json
 import os
 
 def load_json(filename):
-    json_path = os.path.join('res', filename)
-    if os.path.exists(json_path):
-        with open(json_path, 'r') as file:
+    # 构建完整的文件路径
+    json_path_local = os.path.join('res', filename + '.json')
+    if os.path.exists(json_path_local):
+        with open(json_path_local, 'r') as file:
             return json.load(file)
     else:
         return []
 
 def save_json(filename, data):
-    json_path = os.path.join('res', filename)
-    with open(json_path, 'w') as file:
+    # 构建完整的文件路径
+    json_path_local = os.path.join('res', filename + '.json')
+    # 确保文件夹存在
+    dir_path = os.path.dirname(json_path_local)
+    if not os.path.exists(dir_path):
+        os.makedirs(dir_path)
+    # 写入数据到文件
+    with open(json_path_local, 'w') as file:
         json.dump(data, file, indent=4)
 
 def find_item_by_n(data, n):
@@ -41,44 +47,43 @@ def delete_item_by_n(data, n):
         return True
     return False
 
-# 主程序入口（由main.py调用）
+def get_c():
+    a = input("[flu]define A:")
+    b = input("[flu]define B:")
+    ac = tuple(int(a[i:i+2], 16) for i in (0, 2, 4))
+    bc = tuple(int(b[i:i+2], 16) for i in (0, 2, 4))
+    return (ac,bc)
+
 def manage_json(filename):
-    data = load_json(filename)
+    json_path = os.path.join('res', filename + '.json')
+    data = load_json(filename)  # 加载数据到data中
     while True:
         n = input("请输入n的值(或输入'q'退出）: ")
         if n.lower() == 'q':
-            save_json(filename, data)
+            save_json(filename, data)  # 保存data，而不是d
             break
         try:
             n = int(n)
             item = find_item_by_n(data, n)
             if item:
                 print(f"找到项: {item}")
-                action = input("要修改(m)、删除(d)还是做其他操作(o)? ").lower()
+                action = input("要修改(m)、删除(d)? ").lower()
                 if action == 'm':
                     new_name = input("输入新的name: ")
-                    new_c = input("输入新的c值(格式为'[a, b]'): ").strip('[]').split(',')
-                    new_c = [int(c) for c in new_c]
+                    new_c = get_c()
                     if update_item(data, n, new_name, new_c):
-                        print("更新成功！")
+                        print("[flu]update.")
                 elif action == 'd':
                     if delete_item_by_n(data, n):
-                        print("删除成功！")
-                elif action == 'o':
-                    pass  # 其他操作可以在这里添加
+                        print("[flu]delete.")
                 else:
-                    print("无效操作！")
+                    print("[flu]?")
             else:
                 create = input("未找到该项，是否要创建(y/n)? ").lower()
                 if create == 'y':
-                    name = input("输入name: ")
-                    c = input("输入c值(格式为'[a, b]'): ").strip('[]').split(',')
-                    c = [int(c) for c in c]
+                    name = input("[flu]name: ")
+                    c = get_c()
                     data = add_item(data, n, name, c)
-                    print("创建成功！")
+                    print(f"[flu]saved as {filename}.")
         except ValueError:
-            print("请输入有效的n值!")
-
-# main.py 中调用示例
-# import json_manager
-# json_manager.manage_json('my_data.json')
+            print("[flu]请输入有效的n值!")
