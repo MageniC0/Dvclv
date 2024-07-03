@@ -40,39 +40,6 @@ for z in range(16):
                 r = tr_r[z][y][x]
 
 
-mapt.save(png_name)
-print("saved as png.")
-
-
-
-
-
-for z in range(16):
-    for y in range(16):
-        for x in range(16):
-            #遍历：对于区块内的每一个方块
-            if tr[z][y][x] == 1:
-                tr_n[z+1][y+1][x+1] = 1
-                #构造：如果tr的该位置不是空的，在tr_n的对应位置赋值“1”
-
-tr_r = [[[[0,0,0,0,0,0] for _ in range(16)] for _ in range(16)] for _ in range(16)]
-#构造：存储每个方块的状态
-
-
-            #构造：方块的上下左右前后是否有方块
-
-B = [[0 for _ in range(193)] for _ in range(193)]
-#构造：存储.png画布上每一个像素的属性
-for z in range(16):
-    for y in range(16):
-        for x in range(16):
-            #遍历：对于区块内的每一个方块
-            if tr[z][y][x] == 1:
-                #如果有方块
-
-                #此处方块邻接情况的映象
-                s = [[0 for _ in range(13)] for _ in range(13)]
-                #与这个方块有关的区域
                 if r[4] == 0 and r[3] == 0:
                     #左后方无方块
                     s[0][5] = 1
@@ -117,12 +84,10 @@ for z in range(16):
                     #中侧棱稍暗
                     for k in range(5,13):
                         s[k][6] = 1
-                #最后，把s的图形叠加到总画布B上
                 m,n = pos(x,y,z)
                 for i in range(13):
                     for j in range(2,11):
                         B[m+i][n+j] = 0
-                #有些图像被覆盖，应清空
                 B[m+5][n] = 0
                 B[m+6][n+12] = 0
                 B[m+7][n+12] = 0
