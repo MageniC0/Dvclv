@@ -1,14 +1,12 @@
 import os
-def f():
-    h1 = os.path.dirname(os.path.abspath(__file__))
-    h2 = 0
-    h3 = ''
-    h7 = h1.count(os.sep)
-    for h4, h5, h6 in os.walk(h1):
-        h5.sort()
-        h2 = h4.count(os.sep) - h7
-        h3 = '_' * h2
-        for h8 in h5:
-            print(f"{h3}~{h8}")
-        for h0 in h6:
-            print(f"{h3}_{h0}")
+def print_directory_contents(root_dir, indent=0):
+    indent_str = '.   ' * indent
+    for dirpath, dirnames, filenames in os.walk(root_dir):
+        print(f"{indent_str}[{os.path.basename(dirpath)}]")
+        for filename in filenames:
+            print(f".   {indent_str}{filename}")
+        if dirnames:
+            for dirname in dirnames:
+                print_directory_contents(os.path.join(dirpath, dirname), indent + 1)
+root_directory = os.path.dirname(os.path.abspath(__file__))
+print_directory_contents(root_directory)
