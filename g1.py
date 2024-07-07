@@ -1,5 +1,5 @@
 import os
-def f1():
+def f():
     h1 = os.path.dirname(os.path.abspath(__file__))
     h2 = 0
     h3 = ''
