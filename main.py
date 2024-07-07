@@ -12,6 +12,9 @@ print("5_ 参考文档")
 i = input("")
 
 import g1
+import g2
+import g3
+import g4
 
 if i == "0":
     print("告辞。")
