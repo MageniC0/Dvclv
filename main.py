@@ -22,3 +22,16 @@ if i == "0":
 if i == "1":
     g1.f()
 
+if i == "2":
+    g2.f()
+
+if i == "3":
+    g3.f()
+
+if i == "4":
+    g4.f()
+
+if i == "5":
+    file = open("laer.txt","r")
+    print(file)
+    file.close
