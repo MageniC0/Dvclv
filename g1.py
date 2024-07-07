@@ -1,15 +1,13 @@
 import os
 def f1():
-    g1 = os.path.dirname(os.path.abspath(__file__))
-    g2 = 0
-    g3 = ''
-    for g4, g5, g6 in os.walk(g1):
-        g5.sort()
-        g7 = g14.count(os.sep) - g11.count(os.sep)
-        g3 = '_' * g7
-        for g8 in g5:
-            print(f"{g3}~{g8}")
-        g9 = os.path.basename(__file__)
-        for g0 in g6:
-            if g0 != g9:
-                print(f"{g3}_ {g0}")
+    h1 = os.path.dirname(os.path.abspath(__file__))
+    h2 = 0
+    h3 = ''
+    for h4, h5, h6 in os.walk(h1):
+        h5.sort()
+        h7 = h4.count(os.sep) - h1.count(os.sep)
+        h3 = '_' * h7
+        for h8 in h5:
+            print(f"{h3}~{h8}")
+        for h0 in h6:
+            print(f"{h3}_ {h0}")
