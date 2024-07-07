@@ -3,7 +3,7 @@ def f():
     h1 = os.path.dirname(os.path.abspath(__file__))
     h2 = 0
     h3 = ''
-    h7 = h1.count()
+    h7 = h1.count(os.sep)
     for h4, h5, h6 in os.walk(h1):
         h5.sort()
         h2 = h4.count(os.sep) - h7
