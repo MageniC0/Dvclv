@@ -10,30 +10,24 @@ while True:
         break
     elif mode == "1":
         print("\n[资源包]")
-        res_name = "res/" + input("调用_")
-        chc_name = f"{res_name}/chc.json"
-        chj_name = f"{res_name}/chj.json"
-        di = os.path.dirname(res_name)
-        if not os.path.exists(res_name):
-            os.makedirs(res_name)
-            chc = [[0,0,0,0,0,0,0,0,0,0,0,0]] * 256
-            chj = ["cube"] * 256
+        chc_name = "chc/" + input("调用_") + ".json"
+        di = os.path.dirname(chc_name)
+        if not os.path.exists(chc_name):
+            os.makedirs(chc_name)
+            data = {"chc":[[0,0,0,0,0,0,0,0,0,0,0,0]] * 256,"chj":["dust"] * 256}
             with open(chc_name,'w',encoding="utf-8") as chc_file:
-                json.dump(chc,chc_file, ensure_ascii=False)
-            with open(chj_name, 'w',encoding="utf-8") as chj_file:
-                json.dump(chj,chj_file, ensure_ascii=False)
-            print(f"新的{res_name}")
+                json.dump(chc,chc_file)
+            print(f"新的{chc_name}")
         with open(chc_name,'r',encoding="utf-8") as chc_file:
-            chc = json.load(chc_file)
-        with open(chj_name,'r',encoding="utf-8") as chj_file:
-            chj = json.load(chj_file)
+            data = json.load(chc_file)
+        chc = data["chc"]
+        chj = data["chj"]
         while True:
             index = input("序列号_")
             if index == "0":
-                with open(chc_name,'w',encoding="utf-8") as chc_file:
-                    json.dump(chc,chc_file, ensure_ascii=False)
-                with open(chj_name,'w',encoding="utf-8") as chj_file:
-                    json.dump(chj,chj_file, ensure_ascii=False)
+                data = {"chc":chc,"chj":chj}
+                with open(chc_name,'w',encoding="utf-8") as chj_file:
+                    json.dump(data,chj_file)
                 break 
             else:
                 cube_index = int(index)
@@ -47,17 +41,15 @@ while True:
                 chj[cube_index] = cube_name
     elif mode == "2":
         print("\n[地图册]")
-        res_name = "res/" + input("资源包:")
-        chj_name = f"{res_name}/chj.json"
-        chc_name = f"{res_name}/chc.json"
-        di = os.path.dirname(res_name)
-        if not os.path.exists(res_name):
+        chc_name = "chc/" + input("资源包:")
+        di = os.path.dirname(chc_name)
+        if not os.path.exists(chc_name):
             print(f"未找到资源包")
             continue
-        with open(chc_name,'w',encoding="utf-8") as file:
-            json.dump(chc, file, ensure_ascii=False)
-        with open(chj_name, 'w',encoding="utf-8") as file:
-            json.dump(chj, file, ensure_ascii=False)
+        with open(chc_name,'r',encoding="utf-8") as file:
+            json.load(data)
+        chc = data["chc"]
+        chj = data["chj"]
         map_name = "map/" + input("地图册:")
         tr_name = f"{map_name}/tr.json"
         trb_name = f"{map_name}/trb.json"
