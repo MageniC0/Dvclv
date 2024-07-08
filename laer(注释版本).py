@@ -117,7 +117,7 @@ while True:
 
         wlk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
         cube_index = 1
-        ulk = 1
+        dim_dawn = 1
         chc0 = chc[cube_index]
         chj0 = chj[cube_index]
         mode = ''  
@@ -132,7 +132,7 @@ while True:
                 y = int(input("_"))
                 z = int(input("_"))
                 tr[z][y][x] = chc0
-                trb[z][y][x] = ulk
+                trb[z][y][x] = dim_dawn
                 print(f"放置方块于({x},{y},{z})")
                 with open(tr, "w") as file:
                     json.dump(tr, file)
@@ -151,7 +151,7 @@ while True:
                 for x in range(x1, x2+1):
                     for y in range(y1, y2+1):
                         for z in range(z1, z2+1):
-                            wlk[z][y][x] = ulk
+                            wlk[z][y][x] = dim_dawn
                 print(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
             elif mode == "3":
                 print("[选区]\n2.4.1_ 填充但不替换\n2.4.2_ 填充且替换\n2.4.3_ 释放选区")
@@ -165,7 +165,7 @@ while True:
                                 for x in range(16):
                                     if wlk[z][y][x]:
                                         tr[z][y][x] = chc0
-                                        trb[z][y][x] = ulk
+                                        trb[z][y][x] = dim_dawn
                                         with open(tr, "w") as file:
                                             json.dump(tr, file)
                                         with open(trb, "w") as file:
@@ -176,7 +176,7 @@ while True:
                             for x in range(16):
                                 if wlk[z][y][x]:
                                     tr[z][y][x] = chc0
-                                    trb[z][y][x] = ulk
+                                    trb[z][y][x] = dim_dawn
                                     with open(tr, "w") as file:
                                         json.dump(tr,file)
                                     with open(trb, "w") as file:
@@ -189,10 +189,10 @@ while True:
                     chc0 = chc[cube_index]
                     chj0 = chj[cube_index]
                     print(f"持有{chj0}")
-                    ulk = 1
+                    dim_dawn = 1
                 else:
                     print("正在拆除")
-                    ulk = 0
+                    dim_dawn = 0
             elif mode == "5":
                 print("[方块名录]")
                 for k in range(256):
@@ -236,163 +236,165 @@ while True:
         #用于存储渲染信息的列表
         img_dawn = [[0 for _ in range(193)] for _ in range(193)]
 
+        #核心环节
         for z in range(16):
             for y in range(16):
                 for x in range(16):
+                    #对于区块内的每一个方块
                     if trb[z][y][x] == 1:
-                        d5 = [[0 for _ in range(13)]for _ in range(13)]
-                        ulk = [[(0,0,0) for _ in range(13)]for _ in range(13)]
-                        o = tr[z][y][x]
-                        h21 = [tr_near[z+1][y+1][x+2],
+                        dim_draw = [[0 for _ in range(13)]for _ in range(13)]
+                        dim_dawn = [[(0,0,0) for _ in range(13)]for _ in range(13)]
+                        dim_chc = tr[z][y][x]
+                        dim_near = [tr_near[z+1][y+1][x+2],
                                tr_near[z+1][y+1][ x ],
                                tr_near[z+1][y+2][x+1],
                                tr_near[z+1][ y ][x+1],
                                tr_near[z+2][y+1][x+1],
                                tr_near[ z ][y+1][x+1]]
-                        u0,u1,u2,u3 = ((o[0],o[1],o[2]),
-                                       (o[3],o[4],o[5]),
-                                       (o[6],o[7],o[8]),
-                                       (o[9],o[10],o[11]))
-                        if h21[4] == 0:
+                        u0,u1,u2,u3 = ((dim_chc[0], dim_chc[1], dim_chc[2]),
+                                       (dim_chc[3], dim_chc[4], dim_chc[5]),
+                                       (dim_chc[6], dim_chc[7], dim_chc[8]),
+                                       (dim_chc[9],dim_chc[10],dim_chc[11]))
+                        if dim_near[4] == 0:
                             for j in range(2,11):
-                                ulk[1][j] = u0
+                                dim_dawn[1][j] = u0
                             for j in range(2,11):
-                                ulk[2][j] = u0
-                            ulk[0][5] = u0
-                            ulk[0][6] = u0
-                            ulk[0][7] = u0
-                            ulk[3][5] = u0
-                            ulk[3][6] = u0
-                            ulk[3][7] = u0
-                            if h21[0] == 0:
-                                ulk[2][11] = u1
-                                ulk[2][12] = u1
-                                ulk[3][8] = u1
-                                ulk[3][9] = u1
-                                ulk[3][10] = u1
-                                ulk[4][6] = u1
-                                ulk[4][7] = u1
-                            if h21[1] == 0:
-                                d5[0][5] = 2
-                                d5[0][6] = 2
-                                d5[0][7] = 2
-                                d5[1][2] = 2
-                                d5[1][3] = 2
-                                d5[1][4] = 2
-                            if h21[2] == 0:
-                                ulk[2][1] = u1
-                                ulk[2][0] = u1
-                                ulk[3][4] = u1
-                                ulk[3][3] = u1
-                                ulk[3][2] = u1
-                                ulk[4][6] = u1
-                                ulk[4][5] = u1
-                            if h21[3] == 0:
-                                d5[0][7] = 2
-                                d5[0][6] = 2
-                                d5[0][5] = 2
-                                d5[1][10] = 2
-                                d5[1][9] = 2
-                                d5[1][8] = 2
-                        if h21[5] == 0:
-                            if h21[0] == 0:
-                                d5[10][12] = 1
-                                d5[10][11] = 1
-                                d5[11][10] = 1
-                                d5[11][9] = 1
-                                d5[11][8] = 1
-                                d5[12][5] = 1 
-                            if h21[2] == 0:
-                                d5[10][1] = 1
-                                d5[10][0] = 1
-                                d5[11][4] = 1
-                                d5[11][3] = 1
-                                d5[11][2] = 1
-                                d5[12][5] = 1
-                        if h21[0] == 0:
-                            if h21[3] == 0:
+                                dim_dawn[2][j] = u0
+                            dim_dawn[0][5] = u0
+                            dim_dawn[0][6] = u0
+                            dim_dawn[0][7] = u0
+                            dim_dawn[3][5] = u0
+                            dim_dawn[3][6] = u0
+                            dim_dawn[3][7] = u0
+                            if dim_near[0] == 0:
+                                dim_dawn[2][11] = u1
+                                dim_dawn[2][12] = u1
+                                dim_dawn[3][8] = u1
+                                dim_dawn[3][9] = u1
+                                dim_dawn[3][10] = u1
+                                dim_dawn[4][6] = u1
+                                dim_dawn[4][7] = u1
+                            if dim_near[1] == 0:
+                                dim_draw[0][5] = 2
+                                dim_draw[0][6] = 2
+                                dim_draw[0][7] = 2
+                                dim_draw[1][2] = 2
+                                dim_draw[1][3] = 2
+                                dim_draw[1][4] = 2
+                            if dim_near[2] == 0:
+                                dim_dawn[2][1] = u1
+                                dim_dawn[2][0] = u1
+                                dim_dawn[3][4] = u1
+                                dim_dawn[3][3] = u1
+                                dim_dawn[3][2] = u1
+                                dim_dawn[4][6] = u1
+                                dim_dawn[4][5] = u1
+                            if dim_near[3] == 0:
+                                dim_draw[0][7] = 2
+                                dim_draw[0][6] = 2
+                                dim_draw[0][5] = 2
+                                dim_draw[1][10] = 2
+                                dim_draw[1][9] = 2
+                                dim_draw[1][8] = 2
+                        if dim_near[5] == 0:
+                            if dim_near[0] == 0:
+                                dim_draw[10][12] = 1
+                                dim_draw[10][11] = 1
+                                dim_draw[11][10] = 1
+                                dim_draw[11][9] = 1
+                                dim_draw[11][8] = 1
+                                dim_draw[12][5] = 1 
+                            if dim_near[2] == 0:
+                                dim_draw[10][1] = 1
+                                dim_draw[10][0] = 1
+                                dim_draw[11][4] = 1
+                                dim_draw[11][3] = 1
+                                dim_draw[11][2] = 1
+                                dim_draw[12][5] = 1
+                        if dim_near[0] == 0:
+                            if dim_near[3] == 0:
                                 for k in range(3,11):
-                                    d5[k][12] = 3
+                                    dim_draw[k][12] = 3
                             for i in range(3,11):
-                                ulk[i][12] = u2
+                                dim_dawn[i][12] = u2
                             for i in range(3,11):
-                                ulk[i][11] = u2
+                                dim_dawn[i][11] = u2
                             for i in range(4,12):
-                                ulk[i][10] = u2 
+                                dim_dawn[i][10] = u2 
                             for i in range(4,12):
-                                ulk[i][9] = u2  
+                                dim_dawn[i][9] = u2  
                             for i in range(4,12):
-                                ulk[i][8] = u2
+                                dim_dawn[i][8] = u2
                             for i in range(5,13):
-                                ulk[i][7] = u2
-                            if h21[3] == 0:
-                                if h21[1] == 0:
+                                dim_dawn[i][7] = u2
+                            if dim_near[3] == 0:
+                                if dim_near[1] == 0:
                                     for k in range(3,11):
-                                        d5[k][0] = 3
-                        if h21[2] == 0:
+                                        dim_draw[k][0] = 3
+                        if dim_near[2] == 0:
                             for i in range(5,13):
-                                ulk[i][5] = u2
+                                dim_dawn[i][5] = u2
                             for i in range(4,12):
-                                ulk[i][4] = u2
+                                dim_dawn[i][4] = u2
                             for i in range(4,12):
-                                ulk[i][3] = u2 
+                                dim_dawn[i][3] = u2 
                             for i in range(4,12):
-                                ulk[i][2] = u2  
+                                dim_dawn[i][2] = u2  
                             for i in range(3,11):
-                                ulk[i][1] = u2
+                                dim_dawn[i][1] = u2
                             for i in range(3,11):
-                                ulk[i][0] = u2
-                            if h21[1] == 0:
+                                dim_dawn[i][0] = u2
+                            if dim_near[1] == 0:
                                 for i in range(5,11):
                                     for j in range(8):
-                                        ulk[i][j] = u2
-                        if h21[0] == 0 and h21[2] == 0:
+                                        dim_dawn[i][j] = u2
+                        if dim_near[0] == 0 and dim_near[2] == 0:
                             for k in range(5,13):
-                                ulk[k][6] = u3
+                                dim_dawn[k][6] = u3
                                 
                                 
                                 #图形生成
-                        m = 6 * (15 + x - y)
-                        n = 2 * (60 + x + y - 4 * z)
+                        dim_x = 6 * (15 + x - y)
+                        dim_y = 2 * (60 + x + y - 4 * z)
                         for i in range(13):
                             for j in range(2,11):
-                                img_dawn[m+i][n+j] = 0 
+                                img_dawn[dim_x+i][dim_y+j] = 0 
                         for i in range(2,11):
-                            img_dawn[m+i][n+1] = 0
+                            img_dawn[dim_x+i][dim_y+1] = 0
                         for i in range(2,11):
-                            img_dawn[m+i][n+11] = 0
-                        img_dawn[m+5][n] = 0
-                        img_dawn[m+6][n] = 0
-                        img_dawn[m+7][n] = 0
-                        img_dawn[m+5][n+12] = 0
-                        img_dawn[m+6][n+12] = 0
-                        img_dawn[m+7][n+12] = 0
+                            img_dawn[dim_x+i][dim_y+11] = 0
+                        img_dawn[dim_x+5][dim_y] = 0
+                        img_dawn[dim_x+6][dim_y] = 0
+                        img_dawn[dim_x+7][dim_y] = 0
+                        img_dawn[dim_x+5][dim_y+12] = 0
+                        img_dawn[dim_x+6][dim_y+12] = 0
+                        img_dawn[dim_x+7][dim_y+12] = 0
                         
                         for i in range(13):
                             for j in range(13):
-                                if ulk[i][j] != (0,0,0):
-                                    img_draw[m+j][n+i] = ulk[i][j]
-                                    img_dawn[m+j][n+i] = d5[i][j]
-        d = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
+                                if dim_dawn[i][j] != (0,0,0):
+                                    img_draw[dim_x+j][dim_y+i] = dim_dawn[i][j]
+                                    img_dawn[dim_x+j][dim_y+i] = dim_draw[i][j]
+        img = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
         for i in range(193):
             for j in range(193):
-                ar,ag,ab = img_draw[i][j]
+                pix_r,pix_g,pix_b = img_draw[i][j]
                 if img_dawn[i][j] == 1:
-                    ar = int(ar*0.75)
-                    ag = int(ag*0.75)
-                    ab = int(ab*0.75) 
+                    pix_r = int(pix_r*0.75)
+                    pix_g = int(pix_g*0.75)
+                    pix_b = int(pix_b*0.75) 
                 if img_dawn[i][j] == 2:
-                    ar = int(ar*0.75)+63
-                    ag = int(ag*0.75)+63
-                    ab = int(ab*0.75)+63
+                    pix_r = int(pix_r*0.75)+63
+                    pix_g = int(pix_g*0.75)+63
+                    pix_b = int(pix_b*0.75)+63
                 if img_dawn[i][j] == 3:
-                    ar = int(ar*0.875)
-                    ag = int(ag*0.875)
-                    ab = int(ab*0.875)
-                d.putpixel((i,j),(ar,ag,ab,255))
-        d.save(h20)
+                    pix_r = int(pix_r*0.875)
+                    pix_g = int(pix_g*0.875)
+                    pix_b = int(pix_b*0.875)
+                img.putpixel((i,j),(pix_r,pix_g,pix_b,255))
+        img.save(h20)
         print(f"saved as {h20}.")
-        d.show()
+        img.show()
 
     #4. 检查文件目录
     elif mode== "4":
