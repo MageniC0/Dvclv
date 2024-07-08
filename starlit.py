@@ -2,145 +2,145 @@ print("[星光]1.6.0\n")
 import os
 import json
 from PIL import Image
-mode = ''
+选项 = print
+提示 = print
+输入 = input
+调用 = open
+取整 = int
+模式 = ''
 while True:
-    print("\n[主页面]\n1. 资源包\n2. 地图册\n3. 图形\n4. 检查文件")
-    mode = input()
-    if mode == "0":
+    选项("\n[主页面]\n1. 资源包\n2. 地图册\n3. 图形\n4. 检查文件")
+    模式 = input()
+    if 模式 == "0":
         break
-    elif mode == "1":
-        print("\n[资源包]")
-        chc_name = "chc/" + input("调用_") + ".json"
-        di = os.path.dirname(chc_name)
-        if not os.path.exists(chc_name):
-            os.makedirs(chc_name)
-            data = {"chc":[[0,0,0,0,0,0,0,0,0,0,0,0]] * 256,"chj":["dust"] * 256}
-            with open(chc_name,'w',encoding="utf-8") as chc_file:
-                json.dump(chc,chc_file)
-            print(f"新的{chc_name}")
+    elif 模式 == "1":
+        提示("\n[资源包]")
+        资源包_名 = f"chc/{输入('调用资源包_')}.json"
+        if not os.path.exists("chc/"):
+            os.makedirs("chc/")
+            数据 = {"chc":[[0 for _ in range(12)]]*256,"chj":["dust"]*256}
+            with 打开(资源包_名,'w',encoding="utf-8") as 资源包:
+                json.dump(数据,资源包)
+            print(f"创建{资源包_名}")
+        with 打开(资源包_名, 'r', encoding="utf-8") as 资源包:
+            数据 = json.load(资源包)
+        图形库,译名库 = 数据["chc"],数据["chj"]
+        while True:
+            序列号 = 输入("序列号_")
+            if 序列号 == "0":
+                数据 = {"chc":图形库,"chj":译名库}
+                with 打开(资源包_名,'w',encoding="utf-8") as 资源包:
+                    json.dump(数据,资源包)
+                break 
+            else:
+                方块_序列 = 取整(index)
+                方块_标签 = 输入("标签_")
+                方块_主色 = 输入("主色_")
+                c1,c2,c3 = [取整(方块_主色[h:h+2], 16) for h in (0, 2, 4)]
+                方块_副色 = 输入("副色_")
+                c4,c5,c6 = [取整(方块_副色[h:h+2], 16) for h in (0, 2, 4)]
+                图形库[方块_序列] = [    c1      ,    c2      ,    c3      ,
+                                         c4      ,    c5      ,    c6      ,
+                                     取整(c1*0.75),取整(c2*0.75),取整(c3*0.75),
+                                     取整(c4*0.75),取整(c5*0.75),取整(c6*0.75)]
+                译名库[方块_序列] = 方块_标签
+                print(f"[{序列号}]写入{图形库[方块_序列]}")
+    elif 模式 == "2":
+        提示("\n[地图册]")
+        资源包_名 = f"chc/{输入('调用资源包_')}.json"
+        if not os.path.exists("chc_name"):
+            print(f"未找到资源包")
+            continue
         with open(chc_name,'r',encoding="utf-8") as chc_file:
             data = json.load(chc_file)
         chc = data["chc"]
         chj = data["chj"]
-        while True:
-            index = input("序列号_")
-            if index == "0":
-                data = {"chc":chc,"chj":chj}
-                with open(chc_name,'w',encoding="utf-8") as chj_file:
-                    json.dump(data,chj_file)
-                break 
-            else:
-                cube_index = int(index)
-                cube_name = input("方块的名字_")
-                cube_facecolor = input("主色_")
-                cube_sidecolor = input("副色_")
-                c1,c2,c3 = [int(cube_facecolor[h:h+2], 16) for h in (0, 2, 4)]
-                c4,c5,c6 = [int(cube_sidecolor[h:h+2], 16) for h in (0, 2, 4)]
-                chc[cube_index] = [c1,c2,c3,c4,c5,c6,int(c1*0.75),int(c2*0.75),int(c3*0.75),int(c4*0.75),int(c5*0.75),int(c6*0.75)]
-                print(f"[{index}]写入{chc[cube_index]}")
-                chj[cube_index] = cube_name
-    elif mode == "2":
-        print("\n[地图册]")
-        chc_name = "chc/" + input("资源包:")
-        di = os.path.dirname(chc_name)
-        if not os.path.exists(chc_name):
-            print(f"未找到资源包")
-            continue
-        with open(chc_name,'r',encoding="utf-8") as file:
-            json.load(data)
-        chc = data["chc"]
-        chj = data["chj"]
         map_name = "map/" + input("地图册:")
-        tr_name = f"{map_name}/tr.json"
-        trb_name = f"{map_name}/trb.json"
         di = os.path.dirname(map_name)
         if not os.path.exists(map_name):
             os.makedirs(map_name)
-            tr = [[[[0,0,0,0,0,0,0,0,0,0,0,0] for _ in range(16)]for _ in range(16)]for _ in range(16)]
-            with open(tr_name, 'x',encoding="utf-8") as file:
-                json.dump(tr,file)
-            trb = [[[0 for _ in range(16)]for _ in range(16)]for _ in range(16)]
-            with open(trb_name, 'x',encoding="utf-8") as file:
-                json.dump(trb,file)
+            with open(map_name,'x',encoding="utf-8") as map_file:
+                json.dump({"tr":[[[[0 for _ in range(12)] for _ in range(16)] for _ in range(16)] for _ in range(16)],"trb":[[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]},map_file)
             print(f"创建新的地图册{map_name}")
-        with open(tr_name,'r',encoding="utf-8") as tr_file:
-            tr = json.load(tr_file)
-        with open(trb_name,'r',encoding="utf-8") as trb_file:
-            trb = json.load(trb_file)
-        wlk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
-        cube_index = 1
-        dim_b = 1
-        chc0 = chc[cube_index]
-        chj0 = chj[cube_index]
+        with open(map_name,'r',encoding="utf-8") as map_file:
+            data = json.load(map_file)
+        tr = data["tr"]
+        trb = data["trb"]
+        vale_walk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+        vale_index = 1
+        vale_brush = 1
+        chc0 = chc[vale_index]
+        chj0 = chj[vale_index]
         while True:
-            print("\n[设计地图]\n2.1_ 放置方块\n2.2_ 选中区域\n2.3_ 处理选区\n2.4_ 设置笔刷\n2.5_ 查看笔刷名录")
-            mode = input("2.")
-            if mode == "0":
-                with open(tr_name,'w',encoding="utf-8") as tr_file:
-                    json.dump(tr,tr_file)
-                with open(trb_name,'w',encoding="utf-8") as trb_file:
-                    json.dump(trb,trb_file)
+            print("\n[设计地图]\n2.1_ 放置方块\n2.2_ 选中区域\n2.3_ 选区内填充但不替换\n2.4_ 选区内填充\n2.5_ 重置选区\n2.6_ 设置笔刷\n2.7_ 查看笔刷名录")
+            模式 = input("2.")
+            if 模式 == "0":
+                with open(map_name,'w',encoding="utf-8") as map_file:
+                    json.dump({"tr":tr,"trb":trb},trb_file)
                 break
             elif mode == "1":
-                print("[指定坐标]")
+                print("[坐标]")
                 x = int(input("_"))
                 y = int(input("_"))
                 z = int(input("_"))
                 tr[z][y][x] = chc0
-                trb[z][y][x] = dim_b
-                print(f"放置{chj0}于({x},{y},{z})")
+                trb[z][y][x] = vale_brush
+                print(f"放置方块[{chj0}]于({x},{y},{z})")
             elif mode == "2":
-                print("[指定起点坐标]")
+                print("[起点坐标]")
                 x1 = int(input("_"))
                 y1 = int(input("_"))
                 z1 = int(input("_"))
-                print("[指定终点坐标]")
+                print("[终点坐标]")
                 x2 = int(input("_"))
                 y2 = int(input("_"))
                 z2 = int(input("_"))
                 for x in range(x1, x2+1):
                     for y in range(y1, y2+1):
                         for z in range(z1, z2+1):
-                            wlk[z][y][x] = dim_b
+                            vale_walk[z][y][x] = vale_brush
                 print(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
             elif mode == "3":
-                print("[选区]\n2.4.1_ 填充但不替换\n2.4.2_ 填充且替换\n2.4.3_ 释放选区")
-                mode = input("2.4.")
-                if mode == "0":
-                    break
-                elif mode == "1":
-                    if trb[z][y][x] != 0:
-                        for z in range(16):
-                            for y in range(16):
-                                for x in range(16):
-                                    if wlk[z][y][x]:
-                                        tr[z][y][x] = chc0
-                                        trb[z][y][x] = dim_b
-                    print("完成")
-                elif mode == "2":
-                    for z in range(16):
-                        for y in range(16):
-                            for x in range(16):
-                                if wlk[z][y][x]:
-                                    tr[z][y][x] = chc0
-                                    trb[z][y][x] = dim_b
-                    print("完成")
-                elif mode == "3":
-                    wlk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+                for z in range(16):
+                    for y in range(16):
+                        for x in range(16):
+                            if walk[z][y][x] != 0:
+                                tr[z][y][x] = chc0
+                                trb[z][y][x] = vale_brush
+                vale_walk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+                print("填充并重置选区")
             elif mode == "4":
-                cube_index = int(input("[设置笔刷]_"))
-                if cube_index != 0:
-                    chc0 = chc[cube_index]
-                    chj0 = chj[cube_index]
-                    print(f"持有{chj0}")
-                    dim_b = 1
-                else:
-                    print("正在拆除")
-                    dim_b = 0
+                for z in range(16):
+                    for y in range(16):
+                        for x in range(16):
+                            if vale_walk[z][y][x] != 0 and trb[z][y][x] == 0:
+                                tr[z][y][x] = chc0
+                                trb[z][y][x] = vale_brush
+                vale_walk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+                print("填充并重置选区")
             elif mode == "5":
+                vale_walk = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+                print("重置选区")
+            elif mode == "6":
+                vale_index = input("[设置笔刷]_")
+                if vale_index != "0":
+                    print("正在拆除")
+                    vale_brush = 0
+                else:
+                    try:
+                        r = int(r)
+                        chc0 = chc[vale_index]
+                        chj0 = chj[vale_index]
+                        print(f"持有{chj0}")
+                        vale_brush = 1
+                    except ValueError:
+                        print("输入小于256的整数以指定方块")
+            elif mode == "7":
                 print("[笔刷名录]")
                 for k in range(256):
                     print(f"[{k}]{chj[k]}")
+            else:
+                print("\n[提示]\n输入数字继续\n输入0返回")
     elif mode == "3":
         print("\n[人工黎明]")
         map_name = "map/" + input("地图册:")
@@ -322,4 +322,4 @@ while True:
             for v8 in v4:
                 print(f'{v7}{v8}')
     else:
-        print("\n[帮助]\n输入0返回\n输入数字继续")
+        print("\n[提示]\n输入0返回\n输入数字继续")
