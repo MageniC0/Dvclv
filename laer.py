@@ -2,66 +2,92 @@ print("[星光]1.6.0\n")
 import os
 import json
 from PIL import Image
+
 while True:
-    print("\n[主页面]\n1_ 设计资源册\n2_ 设计地图\n3_ 生成图形\n4_ 检查文件")
-    h1 = input("._")
-    if h1 == "0":
+
+    #输入0以返回
+    #输入数字以继续
+    print("\n[主页面]\n1. 设计资源册\n2. 设计地图册\n3. 生成图形\n4. 检查文件")
+    mode = input("._")
+
+    #0. 退出
+    if mode == "0":
         break
-    elif h1 == "1":
+
+    #1. 设计资源册，调用res/chc和res/chj生成res/chc和res/chj
+    elif mode == "1":
+
+        #1.1 在控制台输入资源册的名字
         print("\n[设计资源册]")
-        h2 = "res/" + input("输入资源册名:")
-        h3 = f"{h2}/chc.json"
-        h4 = f"{h2}/chj.json"
-        di = os.path.dirname(h2)
-        if not os.path.exists(h2):
-            os.makedirs(h2)
-            print(f"创建新的{h2}")
+        res_name = "res/" + input("资源册的名字:")
+        chc_name = f"{res_name}/chc.json"
+        chj_name = f"{res_name}/chj.json"
+
+        #1.2 若资源册文件夹不存在则新建
+        di = os.path.dirname(res_name)
+        if not os.path.exists(res_name):
+            os.makedirs(res_name)
+            print(f"新的{res_name}")
+
+        #1.3 加载图形库
         try:
-            with open(h3,'r',encoding="utf-8") as file:
-                h5 = json.loads(file.read())
+            with open(chc_name,'r',encoding="utf-8") as file:
+                chc = json.loads(file.read())
         except FileNotFoundError:
-            h5 = [[0,0,0,0,0,0,0,0,0,0,0,0]] * 256
-            with open(h3,'w',encoding="utf-8") as file:
-                file.write(json.dumps(h5))
-            print(f"创建新的{h3}")
+            chc = [[0,0,0,0,0,0,0,0,0,0,0,0]] * 256
+            with open(chc_name,'w',encoding="utf-8") as file:
+                file.write(json.dumps(chc))
+            print(f"新的{chc_name}")
+
+        #1.4 加载译名库
         try:
-            with open(h4,'r',encoding="utf-8") as file:
-                h6 = json.loads(file.read())
+            with open(chj_name,'r',encoding="utf-8") as file:
+                chj = json.loads(file.read())
         except FileNotFoundError:
-            h6 = ["cube"] * 256
-            with open(h4, 'w',encoding="utf-8") as file:
-                file.write(json.dumps(h6))
-            print(f"创建新的{h4}")
+            chj = ["cube"] * 256
+            with open(chj_name, 'w',encoding="utf-8") as file:
+                file.write(json.dumps(chj))
+            print(f"新的{chj_name}")
+
+        #1.5 开始写入方块
         while True:
-            h11 = input("[转到方块]_")
-            if h11 == "0":
-                break         
+
+            index = input("[转到方块]_")
+
+            if index == "0":
+                break 
+
             else:
-                h7 = int(h11)
-                h8 = input("方块名:")
-                h9 = input("面色:")
-                h10 = input("线色:")
-                c1,c2,c3 = [int(h9[h:h+2], 16) for h in (0, 2, 4)]
-                c4,c5,c6 = [int(h10[h:h+2], 16) for h in (0, 2, 4)]
-                h5[h7] = [c1,c2,c3,c4,c5,c6,int(c1*0.75),int(c2*0.75),int(c3*0.75),int(c4*0.75),int(c5*0.75),int(c6*0.75)]
-                print(f"[{h11}]{h5[h7]}")
-                h6[h7] = h8
-                with open(h3, 'w', encoding="utf-8") as file:
-                    json.dump(h5, file, ensure_ascii=False)
-                with open(h4,'w',encoding="utf-8") as file:
-                    json.dump(h6, file, ensure_ascii=False)
-    elif h1 == "2":
-        h2 = "res/" + input("资源册:")
-        h4 = f"{h2}/chj.json"
-        h3 = f"{h2}/chc.json"
+                cube_index = int(index)
+                cube_name = input("方块名:")
+                cube_facecolor = input("面色:")
+                cube_sidecolor = input("线色:")
+                c1,c2,c3 = [int(cube_facecolor[h:h+2], 16) for h in (0, 2, 4)]
+                c4,c5,c6 = [int(cube_sidecolor[h:h+2], 16) for h in (0, 2, 4)]
+                chc[cube_index] = [c1,c2,c3,c4,c5,c6,int(c1*0.75),int(c2*0.75),int(c3*0.75),int(c4*0.75),int(c5*0.75),int(c6*0.75)]
+                print(f"[{index}]写入{chc[cube_index]}")
+                chj[cube_index] = cube_name
+
+                #1.6 保存图形库和译名库
+                with open(chc_name, 'w', encoding="utf-8") as file:
+                    json.dump(chc, file, ensure_ascii=False)
+                with open(chj_name,'w',encoding="utf-8") as file:
+                    json.dump(chj, file, ensure_ascii=False)
+
+    #2. 设计地图册，调用res/chc和res/chj，生成map/tr
+    elif mode == "2":
+
+        res_name = "res/" + input("资源册:")
+        chj_name = f"{res_name}/chj.json"
+        chc_name = f"{res_name}/chc.json"
         try:
-            with open(h4,'r',encoding = "utf-8") as file:
-                h6 = json.loads(file.read())
+            with open(chj_name,'r',encoding = "utf-8") as file:
+                chj = json.loads(file.read())
         except FileNotFoundError:
             print(f"未找到资源册")
         try:
-            with open(h3,'r',encoding = "utf-8") as file:
-                h5 = json.loads(file.read())
+            with open(chc_name,'r',encoding = "utf-8") as file:
+                chc = json.loads(file.read())
         except FileNotFoundError:
             print(f"未找到图形库")
         h12 = "map/" + input("地图册:")
@@ -90,15 +116,15 @@ while True:
         h17 = [[[1 for _ in range(16)] for _ in range(16)] for _ in range(16)]
         c = 1
         d6 = 1
-        h18 = h5[c]
-        h19 = h6[c]
-        h11 = ''  
+        h18 = chc[c]
+        h19 = chj[c]
+        index = ''  
         while True:
             print("\n[设计地图]\n2.1_ 放置方块\n2.2_ 选中区域\n2.3_ 处理选区\n2.4_ 设置笔刷\n2.5_ 查看目录")
-            h11 = input("2._")
-            if h11 == "0":
+            index = input("2._")
+            if index == "0":
                 break
-            elif h11 == "1":
+            elif index == "1":
                 print("[选中方块]")
                 x = int(input("_"))
                 y = int(input("_"))
@@ -110,7 +136,7 @@ while True:
                     json.dump(h15, file)
                 with open(h14, "w") as file:
                     json.dump(h16, file)
-            elif h11 == "2":
+            elif index == "2":
                 print("[选中区域]")
                 print("选中起点:")
                 x1 = int(input("_"))
@@ -125,7 +151,7 @@ while True:
                         for z in range(z1, z2+1):
                             h17[z][y][x] = d6
                 print(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
-            elif h11 == "3":
+            elif index == "3":
                 print("[选区]\n2.4.1_ 填充但不替换\n2.4.2_ 填充且替换\n2.4.3_ 释放选区")
                 i3 = input("2.4._")
                 if i3 == "0":
@@ -155,24 +181,23 @@ while True:
                                         json.dump(h16,file)
                 elif i3 == "3":
                     h17 = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
-            elif h11 == "4":
+            elif index == "4":
                 c = int(input("[设置笔刷]_"))
                 if c != 0:
-                    h18 = h5[c]
-                    h19 = h6[c]
+                    h18 = chc[c]
+                    h19 = chj[c]
                     print(f"持有{h19}")
                     d6 = 1
                 else:
                     print("正在拆除")
                     d6 = 0
-            elif h11 == "5":
+            elif index == "5":
                 print("[方块名录]")
                 for k in range(256):
-                    print(f"[{k}]{h6[k]}")
-    #done⬆️
-    
-    #something hard⬇️
-    elif h1 == "3":
+                    print(f"[{k}]{chj[k]}")
+
+
+    elif mode == "3":
         print("\n[人工黎明]")
         h12 = "map/" + input("地图册:")
         h20 = f"{h12}/map.png"
@@ -358,10 +383,9 @@ while True:
         d.save(h20)
         print(f"saved as {h20}.")
         d.show()
-    #something hard⬆️
-    
-    #done⬇️
-    elif h1== "4":
+
+
+    elif mode== "4":
         print()
         v1 = os.path.abspath('.')
         for v2, v3, v4 in os.walk(v1):
@@ -371,5 +395,7 @@ while True:
             v7 = '|   ' * (v5 + 1)
             for v8 in v4:
                 print(f'{v7}{v8}')
+
+
     else:
-        print("\n[参考文档]\n输入0返回\n输入数字继续")
+        print("\n[帮助]\n输入0返回\n输入数字继续")
