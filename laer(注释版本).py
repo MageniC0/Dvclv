@@ -203,7 +203,7 @@ while True:
         #3.1 输入信息
         print("\n[人工黎明]")
         map_name = "map/" + input("地图册:")
-        h20 = f"{map_name}/map.png"
+        img_name = f"{map_name}/map.png"
         tr_name = f"{map_name}/tr.json"
         trb_name = f"{map_name}/trb.json"
 
@@ -392,8 +392,8 @@ while True:
                     pix_g = int(pix_g*0.875)
                     pix_b = int(pix_b*0.875)
                 img.putpixel((i,j),(pix_r,pix_g,pix_b,255))
-        img.save(h20)
-        print(f"saved as {h20}.")
+        img.save(img_name)
+        print(f"saved as {img_name}.")
         img.show()
 
     #4. 检查文件目录
