@@ -96,19 +96,19 @@ while True:
             chc = json.loads(file.read())
 
         #2.4 打开地图册的两个数据文件，若没有则新创建
-        map_name = "map/" + input("地图册:")
-        tr = f"{map_name}/tr.json"
-        trb = f"{map_name}/trb.json"
-        di = os.path.dirname(map_name)
-        if not os.path.exists(map_name):
-            os.makedirs(map_name)
+        map = "map/" + input("地图册:")
+        tr = f"{map}/tr.json"
+        trb = f"{map}/trb.json"
+        di = os.path.dirname(map)
+        if not os.path.exists(map):
+            os.makedirs(map)
             tr = [[[[0,0,0,0,0,0,0,0,0,0,0,0] for _ in range(16)]for _ in range(16)]for _ in range(16)]
             with open(tr, 'w',encoding="utf-8") as file:
                 file.write(json.dumps(tr))
             trb = [[[0 for _ in range(16)]for _ in range(16)]for _ in range(16)]
             with open(trb, 'w',encoding="utf-8") as file:
                 file.write(json.dumps(trb))
-            print(f"创建新的地图册{map_name}")
+            print(f"创建新的地图册{map}")
 
         with open(tr,'r',encoding="utf-8") as file:
             tr = json.loads(file.read())
@@ -200,47 +200,55 @@ while True:
 
     #3. 生成地形，调用map/tr和map/trb
     elif mode == "3":
+        #3.1 输入信息
         print("\n[人工黎明]")
         map_name = "map/" + input("地图册:")
         h20 = f"{map_name}/map.png"
-        tr = f"{map_name}/tr.json"
-        trb = f"{map_name}/trb.json"
-        try:
-            with open(tr,'r',encoding="utf-8") as file:
-                tr = json.loads(file.read())
-        except FileNotFoundError:
-            print(f"未找到地质库") 
-        try:
-            with open(trb,'r',encoding="utf-8") as file:
-                trb = json.loads(file.read())
-        except FileNotFoundError:
-            print(f"未找到地形库") 
-        d1 = [[[0 for _ in range(18)] for _ in range(18)] for _ in range(18)]
+        tr_name = f"{map_name}/tr.json"
+        trb_name = f"{map_name}/trb.json"
+
+        #3.2 若文件夹不存在则报错并返回至主页面
+        di = os.path.dirname(map_name)
+        if not os.path.exists(map_name):
+            os.makedirs(map_name)
+            print(f"未找到地图册")
+            continue
+
+        #3.3 加载数据
+        with open(tr_name,'r',encoding="utf-8") as file:
+            tr = json.loads(file.read())
+        with open(trb_name,'r',encoding="utf-8") as file:
+            trb = json.loads(file.read())
+
+
+        #3.4 处理数据生成图片
+
+        #用于遮挡判定的邻接序列（将来也用于区块集成的数据传送）
+        tr_near = [[[0 for _ in range(18)] for _ in range(18)] for _ in range(18)]
         for z in range(16):
             for y in range(16):
                 for x in range(16):
                     if trb[z][y][x] != 0:
-                        d1[z+1][y+1][x+1] = 1 
-        d2 = [[[[0,0,0,0,0,0] for _ in range(16)] for _ in range(16)] for _ in range(16)]
-        for z in range(1,17):
-            for y in range(1,17):
-                for x in range(1,17):
-                    d2[z-1][y-1][x-1] = [d1[z][y][x + 1],
-                                         d1[z][y][x - 1],
-                                         d1[z][y + 1][x],
-                                         d1[z][y - 1][x],
-                                         d1[z + 1][y][x],
-                                         d1[z - 1][y][x]]
-        d3 = [[(0,0,0) for _ in range(193)] for _ in range(193)]
-        d4 = [[0 for _ in range(193)] for _ in range(193)]      
+                        tr_near[z+1][y+1][x+1] = 1
+
+        #用于存储画布填色信息的列表
+        img_draw = [[(0,0,0) for _ in range(193)] for _ in range(193)]
+        #用于存储渲染信息的列表
+        img_dawn = [[0 for _ in range(193)] for _ in range(193)]
+
         for z in range(16):
             for y in range(16):
                 for x in range(16):
                     if trb[z][y][x] == 1:
                         d5 = [[0 for _ in range(13)]for _ in range(13)]
                         ulk = [[(0,0,0) for _ in range(13)]for _ in range(13)]
-                        h21 = d2[z][y][x]
                         o = tr[z][y][x]
+                        h21 = [tr_near[z+1][y+1][x+2],
+                               tr_near[z+1][y+1][ x ],
+                               tr_near[z+1][y+2][x+1],
+                               tr_near[z+1][ y ][x+1],
+                               tr_near[z+2][y+1][x+1],
+                               tr_near[ z ][y+1][x+1]]
                         u0,u1,u2,u3 = ((o[0],o[1],o[2]),
                                        (o[3],o[4],o[5]),
                                        (o[6],o[7],o[8]),
@@ -348,36 +356,36 @@ while True:
                         n = 2 * (60 + x + y - 4 * z)
                         for i in range(13):
                             for j in range(2,11):
-                                d4[m+i][n+j] = 0 
+                                img_dawn[m+i][n+j] = 0 
                         for i in range(2,11):
-                            d4[m+i][n+1] = 0
+                            img_dawn[m+i][n+1] = 0
                         for i in range(2,11):
-                            d4[m+i][n+11] = 0
-                        d4[m+5][n] = 0
-                        d4[m+6][n] = 0
-                        d4[m+7][n] = 0
-                        d4[m+5][n+12] = 0
-                        d4[m+6][n+12] = 0
-                        d4[m+7][n+12] = 0
+                            img_dawn[m+i][n+11] = 0
+                        img_dawn[m+5][n] = 0
+                        img_dawn[m+6][n] = 0
+                        img_dawn[m+7][n] = 0
+                        img_dawn[m+5][n+12] = 0
+                        img_dawn[m+6][n+12] = 0
+                        img_dawn[m+7][n+12] = 0
                         
                         for i in range(13):
                             for j in range(13):
                                 if ulk[i][j] != (0,0,0):
-                                    d3[m+j][n+i] = ulk[i][j]
-                                    d4[m+j][n+i] = d5[i][j]
+                                    img_draw[m+j][n+i] = ulk[i][j]
+                                    img_dawn[m+j][n+i] = d5[i][j]
         d = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
         for i in range(193):
             for j in range(193):
-                ar,ag,ab = d3[i][j]
-                if d4[i][j] == 1:
+                ar,ag,ab = img_draw[i][j]
+                if img_dawn[i][j] == 1:
                     ar = int(ar*0.75)
                     ag = int(ag*0.75)
                     ab = int(ab*0.75) 
-                if d4[i][j] == 2:
+                if img_dawn[i][j] == 2:
                     ar = int(ar*0.75)+63
                     ag = int(ag*0.75)+63
                     ab = int(ab*0.75)+63
-                if d4[i][j] == 3:
+                if img_dawn[i][j] == 3:
                     ar = int(ar*0.875)
                     ag = int(ag*0.875)
                     ab = int(ab*0.875)
