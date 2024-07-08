@@ -8,7 +8,7 @@ while True:
     #输入0以返回
     #输入数字以继续
     print("\n[主页面]\n1. 设计资源册\n2. 设计地图册\n3. 生成图形\n4. 检查文件")
-    mode = input("._")
+    mode = input("_")
 
     #0. 退出
     if mode == "0":
@@ -17,8 +17,9 @@ while True:
     #1. 设计资源册，调用res/chc和res/chj生成res/chc和res/chj
     elif mode == "1":
 
-        #1.1 在控制台输入资源册的名字
         print("\n[设计资源册]")
+
+        #1.1 在控制台输入资源册的名字
         res_name = "res/" + input("资源册的名字:")
         chc_name = f"{res_name}/chc.json"
         chj_name = f"{res_name}/chj.json"
@@ -49,7 +50,7 @@ while True:
                 file.write(json.dumps(chj))
             print(f"新的{chj_name}")
 
-        #1.5 开始写入方块
+        #1.5 写入方块
         while True:
 
             index = input("[转到方块]_")
@@ -58,9 +59,13 @@ while True:
                 break 
 
             else:
+                #方块的编码
                 cube_index = int(index)
+                #方块的命名
                 cube_name = input("方块名:")
+                #主要分布在图形中的颜色
                 cube_facecolor = input("面色:")
+                #作为图形边缘的颜色
                 cube_sidecolor = input("线色:")
                 c1,c2,c3 = [int(cube_facecolor[h:h+2], 16) for h in (0, 2, 4)]
                 c4,c5,c6 = [int(cube_sidecolor[h:h+2], 16) for h in (0, 2, 4)]
@@ -74,7 +79,7 @@ while True:
                 with open(chj_name,'w',encoding="utf-8") as file:
                     json.dump(chj, file, ensure_ascii=False)
 
-    #2. 设计地图册，调用res/chc和res/chj，生成map/tr
+    #2. 设计地图册，调用res/chc和res/chj，生成map/tr和map/trb
     elif mode == "2":
 
         res_name = "res/" + input("资源册:")
@@ -196,7 +201,7 @@ while True:
                 for k in range(256):
                     print(f"[{k}]{chj[k]}")
 
-
+    #3. 生成地形，调用map/tr和map/trb
     elif mode == "3":
         print("\n[人工黎明]")
         h12 = "map/" + input("地图册:")
@@ -384,8 +389,9 @@ while True:
         print(f"saved as {h20}.")
         d.show()
 
-
+    #4. 检查文件目录
     elif mode== "4":
+
         print()
         v1 = os.path.abspath('.')
         for v2, v3, v4 in os.walk(v1):
@@ -396,6 +402,6 @@ while True:
             for v8 in v4:
                 print(f'{v7}{v8}')
 
-
+    #对异常v输入的处理
     else:
         print("\n[帮助]\n输入0返回\n输入数字继续")
