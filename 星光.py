@@ -1,147 +1,159 @@
-print("[starlit]1.6.0\n")
+print("[星光]1.6.0\n")
 import os
 import json
 from PIL import Image
-mo = ''
+选项 = input
+提示 = print
+调用 = open
+取整 = int
+取字 = str
+遍历 = range
+输出 = ''
+模式 = ''
 while True:
-    mode = input("\n[core]\n1. chc\n2. trr\n3. flu\n4. res\n5. rchc\n6. rtrr\n")
-    if mode == "0":
-        print("done.")
+    模式 = 选项("\n[主页面]\n1. 资源包\n2. 地图册\n3. 图形\n4. 检查文件\n5. 浏览资源包\n6. 浏览地图册\n")
+    if 模式 == "0":
+        提示("告辞.")
         break
-    elif mode == "1":
-        print("\n[chc]")
-        chc_name = "chc/" + input('chc_') + ".json"
+    elif 模式 == "1":
+        提示("\n[资源包]")
+        资源包 = "chc/" + 选项('资源包_') + ".json"
+        #打开文件写入数据
         try:
-            with open(chc_name,'r', encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(资源包, 'r', encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
-            with open(chc_name,'w',encoding="utf-8") as file:
-                data = {"chc":[[0]*12]*256,"chj":["dust"]*256}
-                json.dump(data,file)
-            print(f"create[{chc_name}]")
-        chc,chj = data["chc"],data["chj"]
+            with 调用(资源包,'w',encoding="utf-8") as 文件:
+                数据 = {"chc":[[0]*12]*256,"chj":["余烬"]*256}
+                json.dump(数据,文件)
+            提示(f"创建{资源包}")
+        图形库,译名库 = 数据["chc"],数据["chj"]
         while True:
-            index = input("序列号_")
-            if index == "0":
-                data = {"chc":chc,"chj":chj}
-                with open(chc_name,'w',encoding="utf-8") as file:
-                    json.dump(data,file)
+            序列 = 选项("序列号_")
+            if 序列 == "0":
+                数据 = {"chc":图形库,"chj":译名库}
+                with 调用(资源包,'w',encoding="utf-8") as 文件:
+                    json.dump(数据,文件)
                 break 
             else:
-                index = int(index)
-                name = 选项("name_")
-                a = 选项("A_")
-                c1,c2,c3 = [int(a[h:h+2], 16) for h in (0, 2, 4)]
-                b = 选项("B_")
-                c4,c5,c6 = [int(b[h:h+2], 16) for h in (0, 2, 4)]
-                chc[index] = [     c1      ,    c2      ,    c3      ,
-                                   c4      ,    c5      ,    c6      ,
-                               int(c1*0.75),int(c2*0.75),int(c3*0.75),
-                               int(c4*0.75),int(c5*0.75),int(c6*0.75)]
-                chj[index] = name
-                print(f"[{index}]define{chc[index]}")
-    elif mode == "2":
-        print("\n[trr]")
-        chc_name = "chc/" + input('chc_') + ".json"
+                序列 = 取整(序列)
+                标签 = 选项("标签_")
+                主色 = 选项("主色_")
+                c1,c2,c3 = [取整(主色[h:h+2], 16) for h in (0, 2, 4)]
+                副色 = 选项("副色_")
+                c4,c5,c6 = [取整(副色[h:h+2], 16) for h in (0, 2, 4)]
+                图形库[序列] = [    c1      ,     c2      ,     c3      ,
+                                    c4      ,     c5      ,     c6      ,
+                               取整(c1*0.75),取整(c2*0.75),取整(c3*0.75),
+                               取整(c4*0.75),取整(c5*0.75),取整(c6*0.75)]
+                译名库[序列] = 标签
+                print(f"[{序列}]写入{图形库[序列]}")
+    elif 模式 == "2":
+        #加载资源包
+        提示("\n[地图册]")
+        资源包 = "chc/" + 选项('资源包_') + ".json"
+        #如果文件夹不存在则新建
         if not os.path.exists("chc"):
-            print("chc first")
+            提示("请制作资源包")
             continue
+        #打开文件写入数据
         try:
-            with open(chc_name, 'r', encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(资源包, 'r', encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
-            print(f"nowhere[{chc_name}]")
-        chc,chj = data["chc"],data["chj"]
-        trr_name = "trr/" + input('trr_') + ".json"
+            提示(f"未找到{资源包}")
+        图形库,译名库 = 数据["chc"],数据["chj"]
+        地图册 = "trr/" + 选项('地图册_') + ".json"
+        #打开文件写入数据
         try:
-            with open(trr_name, 'r', encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(地图册, 'r', encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
-            with 调用(trr_name,'w',encoding="utf-8") as file:
-                data = {"tra":[[[[0]*12]*16]*16]*16,"trb":[[[0]*16]*16]*16}
-                json.dump(data,file,ensure_ascii = False)
-        tra,trb = data["tra"],data["trb"]
-        walk = [[[0]*16]*16]*16
-        index = 1
-        burst = 1
-        hc = chc[1]
-        hb = chj[1]
+            with 调用(地图册,'w',encoding="utf-8") as 文件:
+                数据 = {"tr":[[[[0]*12]*16]*16]*16,"trb":[[[0]*16]*16]*16}
+                json.dump(数据,文件,ensure_ascii = False)
+        地质,地形 = 数据["tr"],数据["trb"]
+        选区 = [[[0]*16]*16]*16
+        序列 = 1
+        墨迹 = 1
+        图形 = 图形库[序列]
+        译名 = 译名库[序列]
         while True:
-            mode = input("\n[trr]\n2.1_ cebe\n2.2_ walk\n2.3_ fill\n2.4_ dfill\n2.5_ rw\n2.6_ rb\n2.")
-            if mode == "0":
-                with open(trr_name,'w',encoding="utf-8") as file:
-                    json.dump({"tra":tra,"trb":trb},file)
+            模式 = 选项("\n[设计地图]\n2.1_ 放置方块\n2.2_ 选中区域\n2.3_ 选区内填充但不替换\n2.4_ 选区内填充\n2.5_ 重置选区\n2.6_ 设置笔刷\n2. ")
+            if 模式 == "0":
+                with 调用(地图册,'w',encoding="utf-8") as 文件:
+                    json.dump({"tr":地质,"trb":地形},文件)
                 break
-            elif mode == "1":
-                print("[pos]")
-                x = int(input("_"))
-                y = int(input("_"))
-                z = int(input("_"))
-                tra[z][y][x] = hc
-                trb[z][y][x] = burst
-                print(f"set[{hb}]at({x},{y},{z})")
-            elif mode == "2":
-                print("[from]")
-                x1 = int(input("_"))
-                y1 = int(input("_"))
-                z1 = int(input("_"))
-                print("[to]")
-                x2 = int(input("_"))
-                y2 = int(input("_"))
-                z2 = int(input("_"))
-                for x in range(x1, x2+1):
-                    for y in range(y1, y2+1):
-                        for z in range(z1, z2+1):
-                            walk[z][y][x] = burst
-                提示(f"from({x1},{y1},{z1})to({x2},{y2},{z2})select")
-            elif mode == "3":
-                for z in range(16):
-                    for y in range(16):
-                        for x in range(16):
-                            if walk[z][y][x] != 0:
-                                hc = tra[z][y][x] = hc
-                                burst = trb[z][y][x]
-                walk = [[0]*16]*16
-                提示("rewalk")
-            elif mode == "4":
+            elif 模式 == "1":
+                提示("[坐标]")
+                x = 取整(选项("_"))
+                y = 取整(选项("_"))
+                z = 取整(选项("_"))
+                地质[z][y][x] = 图形
+                地形[z][y][x] = 墨迹
+                提示(f"放置方块[{译名}]于({x},{y},{z})")
+            elif 模式 == "2":
+                提示("[起点坐标]")
+                x1 = 取整(选项("_"))
+                y1 = 取整(选项("_"))
+                z1 = 取整(选项("_"))
+                提示("[终点坐标]")
+                x2 = 取整(选项("_"))
+                y2 = 取整(选项("_"))
+                z2 = 取整(选项("_"))
+                for x in 遍历(x1, x2+1):
+                    for y in 遍历(y1, y2+1):
+                        for z in 遍历(z1, z2+1):
+                            选区[z][y][x] = 墨迹
+                提示(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
+            elif 模式 == "3":
                 for z in 遍历(16):
                     for y in 遍历(16):
                         for x in 遍历(16):
-                            if walk[z][y][x] != 0 and trb[z][y][x] == 0:
-                                tra[z][y][x] = hc
-                                trb[z][y][x] = burst
-                walk = [[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]
+                            if 选区[z][y][x] != 0:
+                                地质[z][y][x] = 图形
+                                地形[z][y][x] = 墨迹
+                选区 = [[0 for _ in 遍历(16)] for _ in 遍历(16)]*16
                 提示("填充并重置选区")
-            elif mode == "5":
-                walk = [[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]
+            elif 模式 == "4":
+                for z in 遍历(16):
+                    for y in 遍历(16):
+                        for x in 遍历(16):
+                            if 选区[z][y][x] != 0 and 地形[z][y][x] == 0:
+                                地质[z][y][x] = 图形
+                                地形[z][y][x] = 墨迹
+                选区 = [[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]
+                提示("填充并重置选区")
+            elif 模式 == "5":
+                选区 = [[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]
                 提示("重置选区")
-            elif mode == "6":
+            elif 模式 == "6":
                 参数 = 选项("设置笔刷_")
                 if 参数 != "0":
                     print("正在拆除")
-                    burst = 0
+                    墨迹 = 0
                 else:
                     try:
                         r = 取整(r)
-                        hc = chc[参数]
-                        hb = chj[参数]
-                        提示(f"持有{hb}")
-                        burst = 1
+                        图形 = 图形库[参数]
+                        译名 = 译名库[参数]
+                        提示(f"持有{译名}")
+                        墨迹 = 1
                     except ValueError:
                         提示("输入小于256的整数以指定方块")
             else:
                 提示("\n[提示]\n输入数字继续\n输入0返回")
-    elif mode == "3":
+    elif 模式 == "3":
         提示("\n[人工黎明]")
         #1. 加载数据
-        trr_name = "trr/" + 选项("地图册_") + ".json"
+        地图册 = "trr/" + 选项("地图册_") + ".json"
         try:
-            with 调用(trr_name, 'r', encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(地图册, 'r', encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
-            提示(f"找不到{trr_name}")
+            提示(f"找不到{地图册}")
             continue
-        地质库,地形库 = data["tr"],data["trb"]
+        地质库,地形库 = 数据["tr"],数据["trb"]
         图 = "flu/" + 选项("示意图_") + ".png"
         提示("传送数据...")
         #2. 生成邻接序列
@@ -164,38 +176,38 @@ while True:
                         取色 = [[(0,0,0)]*13]*13
                         渲染 = [[0]*13]*13
                         #7. 加载数据
-                        tra = 地质库[z][y][x]
+                        地质 = 地质库[z][y][x]
                         邻接 = [邻接库[z+1][y+1][x+2],
                                 邻接库[z+1][y+1][ x ],
                                 邻接库[z+1][y+2][x+1],
                                 邻接库[z+1][ y ][x+1],
                                 邻接库[z+2][y+1][x+1],
                                 邻接库[ z ][y+1][x+1]]
-                        a,b,暗主色,暗副色 = ((tra[0], tra[1], tra[2]),
-                                                   (tra[3], tra[4], tra[5]),
-                                                   (tra[6], tra[7], tra[8]),
-                                                   (tra[9],tra[10],tra[11]))
+                        主色,副色,暗主色,暗副色 = ((地质[0], 地质[1], 地质[2]),
+                                                   (地质[3], 地质[4], 地质[5]),
+                                                   (地质[6], 地质[7], 地质[8]),
+                                                   (地质[9],地质[10],地质[11]))
                         print(邻接)
                         #8. 填色
                         if 邻接[4] == 0:
                             for 纵 in 遍历(2,11):
-                                取色[1][纵] = a
+                                取色[1][纵] = 主色
                             for 纵 in 遍历(2,11):
-                                取色[2][纵] = a
-                            取色[0][5] = a
-                            取色[0][6] = a
-                            取色[0][7] = a
-                            取色[3][5] = a
-                            取色[3][6] = a
-                            取色[3][7] = a
+                                取色[2][纵] = 主色
+                            取色[0][5] = 主色
+                            取色[0][6] = 主色
+                            取色[0][7] = 主色
+                            取色[3][5] = 主色
+                            取色[3][6] = 主色
+                            取色[3][7] = 主色
                             if 邻接[0] == 0:
-                                取色[2][0] = b
-                                取色[2][1] = b
-                                取色[3][2] = b
-                                取色[3][3] = b
-                                取色[3][4] = b
-                                取色[4][5] = b
-                                取色[4][6] = b
+                                取色[2][0] = 副色
+                                取色[2][1] = 副色
+                                取色[3][2] = 副色
+                                取色[3][3] = 副色
+                                取色[3][4] = 副色
+                                取色[4][5] = 副色
+                                取色[4][6] = 副色
                             if 邻接[1] == 0:
                                 渲染[0][5] = 2
                                 渲染[0][6] = 2
@@ -204,13 +216,13 @@ while True:
                                 渲染[1][9] = 2
                                 渲染[1][10] = 2
                             if 邻接[2] == 0:
-                                取色[2][12] = b
-                                取色[2][11] = b
-                                取色[3][10] = b
-                                取色[3][9] = b
-                                取色[3][8] = b
-                                取色[4][7] = b
-                                取色[4][6] = b
+                                取色[2][12] = 副色
+                                取色[2][11] = 副色
+                                取色[3][10] = 副色
+                                取色[3][9] = 副色
+                                取色[3][8] = 副色
+                                取色[4][7] = 副色
+                                取色[4][6] = 副色
                             if 邻接[3] == 0:
                                 渲染[0][7] = 2
                                 渲染[0][6] = 2
@@ -315,7 +327,7 @@ while True:
         画布.save(图)
         提示(f"保存为{图}")
         画布.show()
-    elif mode == "4":
+    elif 模式 == "4":
         提示("\n[检查文件]\n传送数据...\n")
         v1 = os.path.abspath('.')
         for v2, v3, v4 in os.walk(v1):
@@ -327,33 +339,33 @@ while True:
                 输出 += f'{v7}{v8}\n'
         提示(输出)
         输出 = ''
-    elif mode == "5":
+    elif 模式 == "5":
         提示("\n[浏览]")
-        chc_name = "chc/" + 选项('资源包_') + ".json"
+        资源包 = "chc/" + 选项('资源包_') + ".json"
         提示("传送数据...\n")
         try:
-            with 调用(chc_name,'r',encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(资源包,'r',encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
             提示("未找到资源包")
             continue
-        chc,chj = data["chc"],data["chj"]
+        图形库,译名库 = 数据["chc"],数据["chj"]
         for 粒子 in 遍历(256):
-            输出 += f"[{粒子}]{chj[粒子]}_{chc[粒子]}\n"
+            输出 += f"[{粒子}]{译名库[粒子]}_{图形库[粒子]}\n"
         提示(输出)
         输出 = ''
-    elif mode == "6":
+    elif 模式 == "6":
         提示("\n[浏览]")
         #输入地图册名字，如果在map没找到，报错。
-        trr_name = "trr/" + 选项('地图册_') + ".json"
+        地图册 = "trr/" + 选项('地图册_') + ".json"
         提示("传送数据...\n")
         try:
-            with 调用(trr_name,'r',encoding="utf-8") as file:
-                data = json.load(file)
+            with 调用(地图册,'r',encoding="utf-8") as 文件:
+                数据 = json.load(文件)
         except FileNotFoundError:
             提示("未找到地图册")
             continue
-        tra = data["tr"]
+        地质 = 数据["tr"]
         输出 = "[方块序列]"
         for z in 遍历(16):
             输出 += f"\n|\n[z={z}]__________________________________"
@@ -361,7 +373,7 @@ while True:
                 输出 += f"\n|\n| [y={y}]"
                 for x in 遍历(16):
                     输出 += f"\n| | [x={x}]"
-                    输出 += 取字(tra[z][y][x])
+                    输出 += 取字(地质[z][y][x])
         提示(输出)
         输出 = ''
     else:
