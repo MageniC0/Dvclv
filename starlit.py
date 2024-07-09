@@ -17,11 +17,10 @@ while True:
     elif 模式 == "1":
         提示("\n[资源包]")
         资源包 = f"chc/{输入('调用资源包_')}.json"
-        if not os.path.exists("chc/"):
+        if not os.path.exists(os.path.dirname(地图册)):
             os.makedirs("chc/")
-            数据 = {"chc":[[0 for _ in 遍历(12)]]*256,"chj":["余烬"]*256}
-            with 打开(资源包,'w',encoding="utf-8") as 文件:
-                json.dump(数据,文件)
+            with 打开(资源包,'x',encoding="utf-8") as 文件:
+                json.dump({"chc":[[0 for _ in 遍历(12)]]*256,"chj":["余烬"]*256},文件)
             print(f"创建{资源包}")
         with 打开(资源包, 'r', encoding="utf-8") as 文件:
             数据 = json.load(文件)
@@ -49,7 +48,7 @@ while True:
     elif 模式 == "2":
         提示("\n[地图册]")
         资源包 = f"chc/{输入('调用资源包_')}.json"
-        if not os.path.exists("chc_name"):
+        if not os.path.exists(chc_name):
             print(f"未找到资源包")
             continue
         with 打开(资源包,'r',encoding="utf-8") as 文件:
@@ -57,8 +56,7 @@ while True:
         图形库 = 数据["chc"]
         译名库 = 数据["chj"]
         地图册 = "map/" + 输入("地图册:")
-        di = os.path.dirname(地图册)
-        if not os.path.exists(地图册):
+        if not os.path.exists(os.path.dirname(地图册)):
             os.makedirs(地图册)
             with 打开(地图册,'x',encoding="utf-8") as 文件:
                 json.dump({"tr":[[[[0 for _ in 遍历(12)] for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)],"trb":[[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]},文件)
@@ -67,7 +65,7 @@ while True:
             数据 = json.load(文件)
         地质 = 数据["tr"]
         地形 = 数据["trb"]
-        选区 = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+        选区 = [[0 for _ in 遍历(16)] for _ in 遍历(16)]*16
         序列 = 1
         墨迹 = 1
         图形 = 图形库[序列]
@@ -100,7 +98,7 @@ while True:
                     for y in 遍历(y1, y2+1):
                         for z in 遍历(z1, z2+1):
                             选区[z][y][x] = 墨迹
-                print(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
+                提示(f"指向从({x1},{y1},{z1})到({x2},{y2},{z2})的方块")
             elif 模式 == "3":
                 for z in 遍历(16):
                     for y in 遍历(16):
@@ -108,8 +106,8 @@ while True:
                             if 选区[z][y][x] != 0:
                                 地质[z][y][x] = 图形
                                 地形[z][y][x] = 墨迹
-                选区 = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
-                print("填充并重置选区")
+                选区 = [[0 for _ in 遍历(16)] for _ in 遍历(16)]*16
+                提示("填充并重置选区")
             elif 模式 == "4":
                 for z in 遍历(16):
                     for y in 遍历(16):
@@ -122,203 +120,201 @@ while True:
             elif 模式 == "5":
                 选区 = [[[0 for _ in 遍历(16)] for _ in 遍历(16)] for _ in 遍历(16)]
                 提示("重置选区")
-            elif mode == "6":
-                vale_index = 输入("[设置笔刷]_")
-                if vale_index != "0":
+            elif 模式 == "6":
+                参数 = 输入("[设置笔刷]_")
+                if 参数 != "0":
                     print("正在拆除")
-                    vale_brush = 0
+                    墨迹 = 0
                 else:
                     try:
                         r = 取整(r)
-                        chc0 = chc[vale_index]
-                        chj0 = chj[vale_index]
-                        print(f"持有{chj0}")
-                        vale_brush = 1
+                        图形 = 图形库[参数]
+                        译名 = 译名库[参数]
+                        提示(f"持有{译名}")
+                        墨迹 = 1
                     except ValueError:
-                        print("输入小于256的整数以指定方块")
-            elif mode == "7":
-                print("[笔刷名录]")
-                for k in 遍历(256):
-                    print(f"[{k}]{chj[k]}")
+                        提示("输入小于256的整数以指定方块")
+            elif 模式 == "7":
+                选项("[笔刷名录]")
+                for 粒子 in 遍历(256):
+                    提示(f"[{粒子}]{译名库[粒子]}")
             else:
-                print("\n[提示]\n输入数字继续\n输入0返回")
-    elif mode == "3":
-        print("\n[人工黎明]")
-        map_name = f"map/{输入("地图册_")}"
-        img_name = f"laer/{输入("示意图:")}"
-        di = os.path.dirname(map_name)
-        if not os.path.exists(map_name):
-            os.makedirs(map_name)
-            print(f"未找到地图册")
+                选项("\n[提示]\n输入数字继续\n输入0返回")
+    elif 模式 == "3":
+        选项("\n[人工黎明]")
+        地图册 = f"map/{输入("地图册_")}"
+        图 = f"laer/{输入("示意图:")}"
+        if not os.path.exists(os.path.dirname(地图册)):
+            os.makedirs(地图册)
+            提示(f"未找到地图册")
             continue
-        with 打开(tr_name,'r',encoding="utf-8") as file:
-            tr = json.load(file)
-        with 打开(trb_name,'r',encoding="utf-8") as file:
-            trb = json.load(file)
-        tr_near = [[[0 for _ in 遍历(18)] for _ in 遍历(18)] for _ in 遍历(18)]
+        with 打开(地图册,'r',encoding="utf-8") as 文件:
+            数据 = json.load(文件)
+        地质,地形 = 数据["tr"],数据["trb"]
+        邻接 = [[[0 for _ in 遍历(18)] for _ in 遍历(18)] for _ in 遍历(18)]
         for z in 遍历(16):
             for y in 遍历(16):
                 for x in 遍历(16):
-                    if trb[z][y][x] != 0:
-                        tr_near[z+1][y+1][x+1] = 1
-        img_dawn = [(0,0,0) for _ in 遍历(193)]*193
-        img_draw = [0 for _ in 遍历(193)]*193
+                    if 地形[z][y][x] != 0:
+                        邻接[z+1][y+1][x+1] = 1
+        取色 = [(0,0,0) for _ in 遍历(193)]*193
+        渲染 = [0 for _ in 遍历(193)]*193
         for z in 遍历(16):
             for y in 遍历(16):
                 for x in 遍历(16):
-                    if trb[z][y][x] == 1:
-                        dim_dawn = [[(0,0,0) for _ in range(13)]for _ in range(13)]
-                        dim_draw = [[0 for _ in range(13)]for _ in range(13)]
-                        dim_chc = tr[z][y][x]
-                        dim_near = [tr_near[z+1][y+1][x+2],
-                               tr_near[z+1][y+1][ x ],
-                               tr_near[z+1][y+2][x+1],
-                               tr_near[z+1][ y ][x+1],
-                               tr_near[z+2][y+1][x+1],
-                               tr_near[ z ][y+1][x+1]]
-                        u0,u1,u2,u3 = ((dim_chc[0], dim_chc[1], dim_chc[2]),
-                                       (dim_chc[3], dim_chc[4], dim_chc[5]),
-                                       (dim_chc[6], dim_chc[7], dim_chc[8]),
-                                       (dim_chc[9],dim_chc[10],dim_chc[11]))
-                        if dim_near[4] == 0:
-                            for j in range(2,11):
-                                dim_dawn[1][j] = u0
-                            for j in range(2,11):
-                                dim_dawn[2][j] = u0
-                            dim_dawn[0][5] = u0
-                            dim_dawn[0][6] = u0
-                            dim_dawn[0][7] = u0
-                            dim_dawn[3][5] = u0
-                            dim_dawn[3][6] = u0
-                            dim_dawn[3][7] = u0
-                            if dim_near[0] == 0:
-                                dim_dawn[2][0] = u1
-                                dim_dawn[2][1] = u1
-                                dim_dawn[3][2] = u1
-                                dim_dawn[3][3] = u1
-                                dim_dawn[3][4] = u1
-                                dim_dawn[4][5] = u1
-                                dim_dawn[4][6] = u1
-                            if dim_near[1] == 0:
-                                dim_draw[0][5] = 2
-                                dim_draw[0][6] = 2
-                                dim_draw[0][7] = 2
-                                dim_draw[1][8] = 2
-                                dim_draw[1][9] = 2
-                                dim_draw[1][10] = 2
-                            if dim_near[2] == 0:
-                                dim_dawn[2][12] = u1
-                                dim_dawn[2][11] = u1
-                                dim_dawn[3][10] = u1
-                                dim_dawn[3][9] = u1
-                                dim_dawn[3][8] = u1
-                                dim_dawn[4][7] = u1
-                                dim_dawn[4][6] = u1
-                            if dim_near[3] == 0:
-                                dim_draw[0][7] = 2
-                                dim_draw[0][6] = 2
-                                dim_draw[0][5] = 2
-                                dim_draw[1][4] = 2
-                                dim_draw[1][3] = 2
-                                dim_draw[1][2] = 2
-                        if dim_near[5] == 0:
-                            if dim_near[0] == 0:
-                                dim_draw[10][0] = 1
-                                dim_draw[10][1] = 1
-                                dim_draw[11][2] = 1
-                                dim_draw[11][3] = 1
-                                dim_draw[11][4] = 1
-                                dim_draw[12][5] = 1 
-                            if dim_near[2] == 0:
-                                dim_draw[10][12] = 1
-                                dim_draw[10][11] = 1
-                                dim_draw[11][10] = 1
-                                dim_draw[11][9] = 1
-                                dim_draw[11][8] = 1
-                                dim_draw[12][7] = 1
-                        if dim_near[0] == 0:
-                            if dim_near[3] == 0:
-                                for k in range(3,11):
-                                    dim_draw[k][12] = 3
-                            for i in range(3,11):
-                                dim_dawn[i][0] = u2
-                            for i in range(3,11):
-                                dim_dawn[i][1] = u2
-                            for i in range(4,12):
-                                dim_dawn[i][2] = u2 
-                            for i in range(4,12):
-                                dim_dawn[i][3] = u2  
-                            for i in range(4,12):
-                                dim_dawn[i][4] = u2
-                            for i in range(5,13):
-                                dim_dawn[i][5] = u2
-                        if dim_near[2] == 0:
-                            if dim_near[1] == 0:
-                                for k in range(3,11):
-                                    dim_draw[k][12] = 3
-                            for i in range(5,13):
-                                dim_dawn[i][12] = u2
-                            for i in range(5,13):
-                                dim_dawn[i][11] = u2
-                            for i in range(4,12):
-                                dim_dawn[i][10] = u2 
-                            for i in range(4,12):
-                                dim_dawn[i][9] = u2  
-                            for i in range(4,12):
-                                dim_dawn[i][8] = u2
-                            for i in range(3,11):
-                                dim_dawn[i][7] = u2
-                        if dim_near[0] == 0 and dim_near[2] == 0:
-                            for k in range(5,13):
-                                dim_dawn[k][6] = u3
-                        dim_x = 6 * (15 - x + y)
-                        dim_y = 2 * (60 + x + y - 4 * z)
-                        for i in range(13):
-                            for j in range(2,11):
-                                img_draw[dim_x+i][dim_y+j] = 0 
-                        for i in range(2,11):
-                            img_draw[dim_x+i][dim_y+1] = 0
-                        for i in range(2,11):
-                            img_draw[dim_x+i][dim_y+11] = 0
-                        img_draw[dim_x+5][dim_y] = 0
-                        img_draw[dim_x+6][dim_y] = 0
-                        img_draw[dim_x+7][dim_y] = 0
-                        img_draw[dim_x+5][dim_y+12] = 0
-                        img_draw[dim_x+6][dim_y+12] = 0
-                        img_draw[dim_x+7][dim_y+12] = 0
-                        for i in range(13):
-                            for j in range(13):
-                                if dim_dawn[i][j] != (0,0,0):
-                                    img_draw[dim_x+j][dim_y+i] = dim_draw[i][j]
-        img = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
-        for i in range(193):
-            for j in range(193):
-                pix_r,pix_g,pix_b = img_dawn[i][j]
-                if img_draw[i][j] == 1:
-                    pix_r = int(pix_r*0.75)
-                    pix_g = int(pix_g*0.75)
-                    pix_b = int(pix_b*0.75) 
-                if img_draw[i][j] == 2:
-                    pix_r = int(pix_r*0.75)+63
-                    pix_g = int(pix_g*0.75)+63
-                    pix_b = int(pix_b*0.75)+63
-                if img_draw[i][j] == 3:
-                    pix_r = int(pix_r*0.875)
-                    pix_g = int(pix_g*0.875)
-                    pix_b = int(pix_b*0.875)
-                img.putpixel((i,j),(pix_r,pix_g,pix_b,255))
-        img.save(img_name)
-        print(f"saved as {img_name}.")
-        img.show()
+                    if 地形[z][y][x] == 1:
+                        方块_渲染 = [(0,0,0) for _ in 遍历(13)]*13
+                        方块_取色 = [0 for _ in 遍历(13)]*13
+                        方块_地质 = 地质[z][y][x]
+                        方块_邻接 = [邻接[z+1][y+1][x+2],
+                               邻接[z+1][y+1][ x ],
+                               邻接[z+1][y+2][x+1],
+                               邻接[z+1][ y ][x+1],
+                               邻接[z+2][y+1][x+1],
+                               邻接[ z ][y+1][x+1]]
+                        主色,副色,暗主色,暗副色 = ((方块_地质[0], 方块_地质[1], 方块_地质[2]),
+                                                (方块_地质[3], 方块_地质[4], 方块_地质[5]),
+                                                (方块_地质[6], 方块_地质[7], 方块_地质[8]),
+                                                (方块_地质[9],方块_地质[10],方块_地质[11]))
+                        if 方块_邻接[4] == 0:
+                            for 纵 in 遍历(2,11):
+                                方块_渲染[1][纵] = 主色
+                            for 纵 in 遍历(2,11):
+                                方块_渲染[2][纵] = 主色
+                            方块_渲染[0][5] = 主色
+                            方块_渲染[0][6] = 主色
+                            方块_渲染[0][7] = 主色
+                            方块_渲染[3][5] = 主色
+                            方块_渲染[3][6] = 主色
+                            方块_渲染[3][7] = 主色
+                            if 方块_邻接[0] == 0:
+                                方块_渲染[2][0] = 副色
+                                方块_渲染[2][1] = 副色
+                                方块_渲染[3][2] = 副色
+                                方块_渲染[3][3] = 副色
+                                方块_渲染[3][4] = 副色
+                                方块_渲染[4][5] = 副色
+                                方块_渲染[4][6] = 副色
+                            if 方块_邻接[1] == 0:
+                                方块_取色[0][5] = 2
+                                方块_取色[0][6] = 2
+                                方块_取色[0][7] = 2
+                                方块_取色[1][8] = 2
+                                方块_取色[1][9] = 2
+                                方块_取色[1][10] = 2
+                            if 方块_邻接[2] == 0:
+                                方块_渲染[2][12] = 副色
+                                方块_渲染[2][11] = 副色
+                                方块_渲染[3][10] = 副色
+                                方块_渲染[3][9] = 副色
+                                方块_渲染[3][8] = 副色
+                                方块_渲染[4][7] = 副色
+                                方块_渲染[4][6] = 副色
+                            if 方块_邻接[3] == 0:
+                                方块_取色[0][7] = 2
+                                方块_取色[0][6] = 2
+                                方块_取色[0][5] = 2
+                                方块_取色[1][4] = 2
+                                方块_取色[1][3] = 2
+                                方块_取色[1][2] = 2
+                        if 方块_邻接[5] == 0:
+                            if 方块_邻接[0] == 0:
+                                方块_取色[10][0] = 1
+                                方块_取色[10][1] = 1
+                                方块_取色[11][2] = 1
+                                方块_取色[11][3] = 1
+                                方块_取色[11][4] = 1
+                                方块_取色[12][5] = 1 
+                            if 方块_邻接[2] == 0:
+                                方块_取色[10][12] = 1
+                                方块_取色[10][11] = 1
+                                方块_取色[11][10] = 1
+                                方块_取色[11][9] = 1
+                                方块_取色[11][8] = 1
+                                方块_取色[12][7] = 1
+                        if 方块_邻接[0] == 0:
+                            if 方块_邻接[3] == 0:
+                                for 粒子 in 遍历(3,11):
+                                    方块_取色[粒子][12] = 3
+                            for 横 in 遍历(3,11):
+                                方块_渲染[横][0] = 暗主色
+                            for 横 in 遍历(3,11):
+                                方块_渲染[横][1] = 暗主色
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][2] = 暗主色 
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][3] = 暗主色  
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][4] = 暗主色
+                            for 横 in 遍历(5,13):
+                                方块_渲染[横][5] = 暗主色
+                        if 方块_邻接[2] == 0:
+                            if 方块_邻接[1] == 0:
+                                for 粒子 in 遍历(3,11):
+                                    方块_取色[粒子][12] = 3
+                            for 横 in 遍历(5,13):
+                                方块_渲染[横][12] = 暗主色
+                            for 横 in 遍历(5,13):
+                                方块_渲染[横][11] = 暗主色
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][10] = 暗主色 
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][9] = 暗主色  
+                            for 横 in 遍历(4,12):
+                                方块_渲染[横][8] = 暗主色
+                            for 横 in 遍历(3,11):
+                                方块_渲染[横][7] = 暗主色
+                        if 方块_邻接[0] == 0 and 方块_邻接[2] == 0:
+                            for 粒子 in 遍历(5,13):
+                                方块_渲染[粒子][6] = 暗副色
+                        X = 6 * (15 - x + y)
+                        Y = 2 * (60 + x + y - 4 * z)
+                        for 横 in 遍历(13):
+                            for 纵 in 遍历(2,11):
+                                渲染[X+横][Y+纵] = 0 
+                        for 横 in 遍历(2,11):
+                            渲染[X+横][Y+1] = 0
+                        for 横 in 遍历(2,11):
+                            渲染[X+横][Y+11] = 0
+                        渲染[X+5][Y] = 0
+                        渲染[X+6][Y] = 0
+                        渲染[X+7][Y] = 0
+                        渲染[X+5][Y+12] = 0
+                        渲染[X+6][Y+12] = 0
+                        渲染[X+7][Y+12] = 0
+                        for 横 in 遍历(13):
+                            for 纵 in 遍历(13):
+                                if 方块_渲染[横][纵] != (0,0,0):
+                                    渲染[X+纵][Y+横] = 方块_取色[横][纵]
+        画布 = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
+        for 横 in range(193):
+            for 纵 in range(193):
+                R,G,B = 取色[横][纵]
+                if 渲染[横][纵] == 1:
+                    R = int(R*0.75)
+                    G = int(G*0.75)
+                    B = int(B*0.75) 
+                if 渲染[横][纵] == 2:
+                    R = int(R*0.75)+63
+                    G = int(G*0.75)+63
+                    B = int(B*0.75)+63
+                if 渲染[横][纵] == 3:
+                    R = int(R*0.875)
+                    G = int(G*0.875)
+                    B = int(B*0.875)
+                画布.putpixel((横,纵),(R,G,B,255))
+        画布.save(图)
+        提示(f"saved as {图}.")
+        画布.show()
     elif mode== "4":
-        print()
+        选项()
         v1 = os.path.abspath('.')
         for v2, v3, v4 in os.walk(v1):
             v5 = v2.replace(v1,'').count(os.sep)
-            v6 = '|   ' * v5
-            print(f'{v6}[{os.path.basename(v2)}]')
-            v7 = '|   ' * (v5 + 1)
+            v6 = '| ' * v5
+            提示(f'{v6}[{os.path.basename(v2)}]')
+            v7 = '| ' * (v5 + 1)
             for v8 in v4:
-                print(f'{v7}{v8}')
+                提示(f'{v7}{v8}')
     else:
-        print("\n[提示]\n输入0返回\n输入数字继续")
+        选项("\n[提示]\n输入0返回\n输入数字继续")
