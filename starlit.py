@@ -10,21 +10,21 @@ while True:
         break
     elif mode == "1":
         print("\n[chc]")
-        chc_name = "chc/" + input('chc_') + ".json"
+        chc_n = "chc/" + input('chc_') + ".json"
         try:
-            with open(chc_name,'r', encoding="utf-8") as file:
+            with open(chc_n,'r', encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            with open(chc_name,'w',encoding="utf-8") as file:
+            with open(chc_n,'w',encoding="utf-8") as file:
                 data = {"chc":[[0]*12]*256,"chj":["dust"]*256}
                 json.dump(data,file)
-            print(f"create[{chc_name}]")
+            print(f"create[{chc_n}]")
         chc,chj = data["chc"],data["chj"]
         while True:
-            index = input("序列号_")
+            index = input("index_")
             if index == "0":
                 data = {"chc":chc,"chj":chj}
-                with open(chc_name,'w',encoding="utf-8") as file:
+                with open(chc_n,'w',encoding="utf-8") as file:
                     json.dump(data,file)
                 break 
             else:
@@ -42,22 +42,22 @@ while True:
                 print(f"[{index}]define{chc[index]}")
     elif mode == "2":
         print("\n[trr]")
-        chc_name = "chc/" + input('chc_') + ".json"
+        chc_n = "chc/" + input('chc_') + ".json"
         if not os.path.exists("chc"):
             print("chc first")
             continue
         try:
-            with open(chc_name, 'r', encoding="utf-8") as file:
+            with open(chc_n, 'r', encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            print(f"nowhere[{chc_name}]")
+            print(f"nowhere[{chc_n}]")
         chc,chj = data["chc"],data["chj"]
-        trr_name = "trr/" + input('trr_') + ".json"
+        trr_n = "trr/" + input('trr_') + ".json"
         try:
-            with open(trr_name, 'r', encoding="utf-8") as file:
+            with open(trr_n, 'r', encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            with 调用(trr_name,'w',encoding="utf-8") as file:
+            with open(trr_n,'w',encoding="utf-8") as file:
                 data = {"tra":[[[[0]*12]*16]*16]*16,"trb":[[[0]*16]*16]*16}
                 json.dump(data,file,ensure_ascii = False)
         tra,trb = data["tra"],data["trb"]
@@ -69,7 +69,7 @@ while True:
         while True:
             mode = input("\n[trr]\n2.1_ cebe\n2.2_ walk\n2.3_ fill\n2.4_ dfill\n2.5_ rw\n2.6_ rb\n2.")
             if mode == "0":
-                with open(trr_name,'w',encoding="utf-8") as file:
+                with open(trr_n,'w',encoding="utf-8") as file:
                     json.dump({"tra":tra,"trb":trb},file)
                 break
             elif mode == "1":
@@ -111,14 +111,14 @@ while True:
                                 tra[z][y][x] = hc
                                 trb[z][y][x] = bu
                 walk = [[[0]*16]*16]*16
-                print("填充并重置选区")
+                print("fill")
             elif mode == "5":
                 walk = [[[0]*16]*16]*16
-                print("重置选区")
+                print("reselect")
             elif mode == "6":
-                lue = input("设置笔刷_")
+                lue = input("set cube_")
                 if lue != "0":
-                    print("正在拆除")
+                    print("delet")
                     bu = 0
                 else:
                     try:
@@ -128,20 +128,20 @@ while True:
                         print(f"cube[{hb}]")
                         bu = 1
                     except ValueError:
-                        print("输入小于256的整数以指定方块")
+                        print("[core]input 1~255 for cube or 0 for deleting")
             else:
-                print("\n[提示]\n输入数字继续\n输入0返回")
+                print("\n[core]\ninput number for continue\n input 0 for going back")
     elif mode == "3":
-        print("\n[人工黎明]")
-        trr_name = "trr/" + input("地图册_") + ".json"
+        print("\n[dvclv]")
+        trr_n = "trr/" + input("trr_") + ".json"
         try:
-            with open(trr_name, 'r', encoding="utf-8") as file:
+            with open(trr_n, 'r', encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            print(f"找不到{trr_name}")
+            print(f"nowhere{trr_n}")
             continue
         tra,trb = data["tra"],data["trb"]
-        tu = "flu/" + input("示意图_") + ".png"
+        tu = "map/" + input("map_") + ".png"
         print("loading...")
         trn = [[[0]*18]*18]*18
         for z in range(16):
@@ -259,98 +259,92 @@ while True:
                         if rn[0] == 0 and rn[2] == 0:
                             for k in range(5,13):
                                 pi[k][6] = bz
-                        X = 6 * (15 - x + y)
-                        Y = 2 * (60 + x + y - 4 * z)
-                        #10. 渲染区预留
-                        for i in 遍历(13):
-                            for j in 遍历(2,11):
-                                daw[X+i][Y+j] = 0 
-                        for i in 遍历(2,11):
-                            daw[X+i][Y+1] = 0
-                        for i in 遍历(2,11):
-                            daw[X+i][Y+11] = 0
-                        daw[X+5][Y] = 0
-                        daw[X+6][Y] = 0
-                        daw[X+7][Y] = 0
-                        daw[X+5][Y+12] = 0
-                        daw[X+6][Y+12] = 0
-                        daw[X+7][Y+12] = 0
-                        #11. 数据传送
-                        for i in 遍历(13):
-                            for j in 遍历(13):
+                        m = 6 * (15 - x + y)
+                        n = 2 * (60 + x + y - 4 * z)
+                        for i in range(13):
+                            for j in range(2,11):
+                                daw[m+i][n+j] = 0 
+                        for i in range(2,11):
+                            daw[m+i][n+1] = 0
+                        for i in range(2,11):
+                            daw[m+i][n+11] = 0
+                        daw[m+5][n] = 0
+                        daw[m+6][n] = 0
+                        daw[m+7][n] = 0
+                        daw[m+5][n+12] = 0
+                        daw[m+6][n+12] = 0
+                        daw[m+7][n+12] = 0
+                        for i in range(13):
+                            for j in range(13):
                                 if pi[i][j] != (0,0,0):
-                                    pix[X+j][Y+i] = pi[i][j]
-        #12. 生成图形
-        画布 = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
-        for i in 遍历(193):
-            for j in 遍历(193):
-                R,G,B = pix[i][j]
-                #13. 渲染
+                                    pix[m+j][n+i] = pi[i][j]
+        img = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
+        for i in range(193):
+            for j in range(193):
+                r,g,b = pix[i][j]
                 if daw[i][j] == 1:
-                    R = int(R*0.75)
-                    G = int(G*0.75)
-                    B = int(B*0.75) 
+                    r = int(r*0.75)
+                    g = int(g*0.75)
+                    b = int(b*0.75) 
                 if daw[i][j] == 2:
-                    R = int(R*0.75)+63
-                    G = int(G*0.75)+63
-                    B = int(B*0.75)+63
+                    r = int(r*0.75)+63
+                    g = int(g*0.75)+63
+                    b = int(b*0.75)+63
                 if daw[i][j] == 3:
-                    R = int(R*0.875)
-                    G = int(G*0.875)
-                    B = int(B*0.875)
-                画布.putpixel((i,j),(R,G,B,255))
-        #14. 存储图形
-        画布.save(tu)
-        提示(f"保存为{tu}")
-        画布.show()
+                    r = int(r*0.875)
+                    g = int(g*0.875)
+                    b = int(b*0.875)
+                img.putpixel((i,j),(r,g,b,255))
+        img.save(tu)
+        print(f"save[{tu}]")
+        img.show()
     elif mode == "4":
-        提示("\n[检查文件]\n传送数据...\n")
+        print("\n[view]\nloading...\n")
         v1 = os.path.abspath('.')
         for v2, v3, v4 in os.walk(v1):
             v5 = v2.replace(v1,'').count(os.sep)
             v6 = '| ' * v5
-            输出 += f'{v6}[{os.path.basename(v2)}]\n'
+            op += f'{v6}[{os.path.basename(v2)}]\n'
             v7 = '| ' * (v5 + 1)
             for v8 in v4:
-                输出 += f'{v7}{v8}\n'
-        提示(输出)
-        输出 = ''
+                op += f'{v7}{v8}\n'
+        print(op)
+        op = ''
     elif mode == "5":
-        提示("\n[浏览]")
-        chc_name = "chc/" + 选项('资源包_') + ".json"
-        提示("传送数据...\n")
+        print("\n[view]")
+        chc_n = "chc/" + input('chc_') + ".json"
+        print("loading...\n")
         try:
-            with 调用(chc_name,'r',encoding="utf-8") as file:
+            with open(chc_n,'r',encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            提示("未找到资源包")
+            print("nowhere[{chc_n}]")
             continue
         chc,chj = data["chc"],data["chj"]
-        for k in 遍历(256):
-            输出 += f"[{k}]{chj[k]}_{chc[k]}\n"
-        提示(输出)
-        输出 = ''
+        for k in range(256):
+            op += f"[{k}]{chj[k]}_{chc[k]}\n"
+        print(op)
+        op = ''
     elif mode == "6":
-        提示("\n[浏览]")
-        #输入地图册名字，如果在map没找到，报错。
-        trr_name = "trr/" + 选项('地图册_') + ".json"
-        提示("传送数据...\n")
+        print("\n[view]")
+        trr_n = "trr/" + input('trr_') + ".json"
+        print("loading...\n")
         try:
-            with 调用(trr_name,'r',encoding="utf-8") as file:
+            with open(trr_n,'r',encoding="utf-8") as file:
                 data = json.load(file)
         except FileNotFoundError:
-            提示("未找到地图册")
+            print("nowhere[{trr_n}]")
             continue
         tra = data["tr"]
-        输出 = "[方块序列]"
-        for z in 遍历(16):
-            输出 += f"\n|\n[z={z}]__________________________________"
-            for y in 遍历(16):
-                输出 += f"\n|\n| [y={y}]"
-                for x in 遍历(16):
-                    输出 += f"\n| | [x={x}]"
-                    输出 += 取字(tra[z][y][x])
-        提示(输出)
-        输出 = ''
+        op = "[list]"
+        for z in range(16):
+            op += f"\n|\n[z={z}]__________________________________"
+            for y in range(16):
+                op += f"\n|\n| [y={y}]"
+                for x in range(16):
+                    op += f"\n| | [x={x}]"
+                    op += str(tra[z][y][x])
+        print(op)
+        op = ''
     else:
-        选项("\n[提示]\n输入0返回\n输入数字继续")
+        print("\n[core]\ninput number for continue\n input 0 for going back")
