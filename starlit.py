@@ -2,7 +2,8 @@ print("\033[92m[starlit]1.6.0")
 import os
 import json
 import pickle
-from PIL import Image
+import time
+from PIL import Image,ImageDraw
 op = ""
 with open("path",'r') as file: path = json.load(file)
 chc_ = path["chc_"]
@@ -116,7 +117,7 @@ while True:
             elif mode == "6":
                 lue = input("[trr]set cube_")
                 try:
-                    r = int(r)
+                    lue = int(lue)
                     hb = chc[lue]
                     hc = chj[lue]
                     if lue == "0":
@@ -129,6 +130,7 @@ while True:
                     print("\033[92m[core]input 1~255 for cube or 0 for deleting")
     elif line == "3":
         print("\n\033[94m[dvclv]")
+        nm = flu_ + input("flu_") + ".png"
         try:
             with open(trr_a,'rb') as file:tra = pickle.load(file)
             with open(trr_b,'rb') as file:trb = pickle.load(file)
@@ -151,27 +153,25 @@ while True:
                         pi = [[(0,0,0) for _ in range(13)] for _ in range(13)]
                         da = [[0 for _ in range(13)] for _ in range(13)]
                         t = tra[x][y][z]
-                        rn = [trn[x+1][y+1][z+2],
-                              trn[x+1][y+1][ z ],
+                        rn = [trn[x+2][y+1][z+1],
+                              trn[ x ][y+1][z+1],
                               trn[x+1][y+2][z+1],
                               trn[x+1][ y ][z+1],
-                              trn[x+2][y+1][z+1],
-                              trn[ x ][y+1][z+1]]
-                        print(rn)
+                              trn[x+1][y+1][z+2],
+                              trn[x+1][y+1][ z ]]
                         a,b,az,bz = ((t[0],t[1],t[2]),
                                      (t[3],t[4],t[5]),
                                      (t[6],t[7],t[8]),
                                      (t[9],t[10],t[11]))
-                        print(a)
                         if rn[4] == 0:
                             for i in range(2,11):pi[i][1] = a
-                            for i in range(2,11):pi[i][1] = a
+                            for i in range(2,11):pi[i][2] = a
                             pi[5][0] = a
                             pi[6][0] = a
                             pi[7][0] = a
-                            pi[5][0] = a
-                            pi[6][0] = a
-                            pi[7][0] = a
+                            pi[5][3] = a
+                            pi[6][3] = a
+                            pi[7][3] = a
                             if rn[0] == 0:
                                 pi[0][2] = b
                                 pi[1][2] = b
@@ -250,38 +250,31 @@ while True:
                         daw[m+5][n+12] = 0
                         daw[m+6][n+12] = 0
                         daw[m+7][n+12] = 0
-                        c = "\033[91m[terrain list]"#
-                        for i in range(13):
-                            c += f"\n|\n[x={i}]__________________________________"
-                            for j in range(13):
-                                c += f"\n|\n| [y={j}]"
-                                c += str(tra[x][y][z]) + f"_{da[i][j]}\n"#
-                        print(c)
                         for i in range(13):
                             for j in range(13):
                                 if pi[i][j] != (0,0,0):
-                                    daw[m+j][n+i] = da[i][j]
-                                    pix[m+j][n+i] = pi[i][j]
+                                    daw[m+i][n+j] = da[i][j]
+                                    pix[m+i][n+j] = pi[i][j]
         img = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
         for i in range(193):
             for j in range(193):
+                r,g,b = pix[i][j]
                 if daw[i][j] == 1:
-                    r = int(r*0.75)
-                    g = int(g*0.75)
-                    b = int(b*0.75) 
+                    r = int(r*0.9)
+                    g = int(g*0.9)
+                    b = int(b*0.9) 
                 if daw[i][j] == 2:
-                    r = int(r*0.75)+63
-                    g = int(g*0.75)+63
-                    b = int(b*0.75)+63
+                    r = int(r*0.7)+63
+                    g = int(g*0.7)+63
+                    b = int(b*0.7)+63
                 if daw[i][j] == 3:
-                    r = int(r*0.875)
-                    g = int(g*0.875)
-                    b = int(b*0.875)
+                    r = int(r*0.85)
+                    g = int(g*0.85)
+                    b = int(b*0.85)
                 img.putpixel((i,j),(r,g,b,255))
-        img.save(tu)
-        print(f"\033[92m[dimo]save[{flu}]")
+        img.save(nm)
+        print(f"\n\033[92m[dimo]save map as[{nm}].\n")
         img.show()
-        print()
     elif line == "4":
         print("\n\033[91m[view]loading...\n")
         v1 = os.path.abspath('.')
@@ -291,10 +284,10 @@ while True:
             op += f'{v6}[{os.path.basename(v2)}]\n'
             v7 = '| ' * (v5 + 1)
             for v8 in v4:op += f'{v7}{v8}\n'
-        print("\033[91m"+op)
+        print(op)
         op = ''
     elif line == "5":
-        print("\n\033[91m[view]loading...")
+        print("\n\033[91m[view]loading...\n\n")
         try:
             with open(chc_c,'rb') as file:
                 chc = pickle.load(file)
@@ -310,26 +303,27 @@ while True:
     elif line == "6":
         print("\n\033[91m[view]loading...")
         try:
-            with open(trr_a,'rb') as file:tra=pickle.load(file)
+            with open(trr_a,'rb') as file:
+                tra = pickle.load(file)
         except FileNotFoundError:
             print(f"\033[91m[core]nowhere[{trr_a}]")
             continue
-        op = "\033[91m[terrain list]"
+        op = "[terrain list]"
         for z in range(16):
-            op += f"\n|\n[z={z}]__________________________________"
+            time.sleep(2)
+            print(f"\n\033[92m[z={z}]__________________________________\n")
+            li = Image.open("lab.png")
+            lid = ImageDraw.Draw(li)
             for y in range(16):
-                op += f"\n|\n| [y={y}]"
                 for x in range(16):
-                    op += f"\n| | [x={x}]"
-                    op += str(tra[x][y][z])
-        print("\033[91m"+op)
+                    cd = (tra[x][y][z][0],tra[x][y][z][1],tra[x][y][z][2])
+                    if cd != (0,0,0):
+                        lid.rectangle([16*x,16*y,16*(x+1),16*(y+1)], fill = cd)
+            li.show()
         op = ''
     elif line == "7":
         with open("path",'r')as file: pa = json.load(file)
         print("\n\033[92m[zelan]define file path.")
-        print(f"\033[93m1.[chc]{chc_}")
-        print(f"\033[93m2.[trr]{trr_}")
-        print(f"\033[93m3.[flu]{flu_}")
         while True:
             mode = input("\n\033[92m[zelan]")
             if mode == "0":break
