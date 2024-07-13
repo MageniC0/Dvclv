@@ -8,8 +8,8 @@ def f(lin,ch_,tr_):
         with open(tr_+'a','rb') as file:tra = pickle.load(file)
         with open(tr_+'b','rb') as file:trb = pickle.load(file)
     except Exception:print(f"[地质]创建[{tr_}]")
-    tra = [[[[0,0,0,0,0,0,0,0,0,0,0,0] for _ in range(16)] for _ in range(16)] for _ in range(16)]
-    trb = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
+        tra = [[[[0,0,0,0,0,0,0,0,0,0,0,0] for _ in range(16)] for _ in range(16)] for _ in range(16)]
+        trb = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
     with open(tr_+'a','wb') as file:pickle.dump(tra,file)
     with open(tr_+'b','wb') as file:pickle.dump(trb,file)
     bu = 1
