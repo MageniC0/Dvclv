@@ -301,3 +301,20 @@ def fc():
                     l.rectangle([16*x+2,16*y+4*z+2,16*x+18,16*y+4*z+18],fill=c)
     f0(f"[查看地图册]\033[94m{t}\n",1)
     i.show()
+def fd():
+    print("[pickle转json]")
+    p = f1("[pickle]\033[94m_",1)
+    j = f1("[json]\033[94m_",1)
+    with open(p,'rb') as f:d = pickle.load(f)
+    try:
+        d = json.dumps(d, indent=4)
+        with open(j,'w') as f:f.write(d)
+        print(f"保存为\033[94m{j}")
+    except Exception as e:print(e)
+def fe():
+    print("[json转pickle]")
+    j = f1("[json]\033[94m_",1)
+    p = f1("[pickle]\033[94m_",1)
+    with open(j,'r') as f:d = json.load(f)
+    with open(p,'wb') as f:pickle.dump(d,f)
+    print(f"保存为\033[94m{p}")
