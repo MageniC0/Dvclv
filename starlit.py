@@ -1,30 +1,54 @@
-import os,pickle,re,json
+﻿import os,pickle,json
 from PIL import Image,ImageDraw
+def fg():
+    print("_"*68)
+def fi(n):
+    s="|   "*n
+    print(s)
 def f0(s,z):
-    print('\033[92m'+'|   '*z+'\033[95m'+s)
+    print('|   '*z+s)
 def f1(s,z):
-    return input('\033[92m'+'|   '*z+'\033[95m'+s)
+    a = input('|   '*z+s)
+    if len(a) == 0:
+        return "0"
+    return a
 def f2(s):
     while True:
-        u = f1(f"\n\033[92m|   \033[95m[{s}]选择方块\033[94m_",1)
+        fi(2)
+        u = f1(f"[{s}]选择方块_",2)
         try:
             u = int(u)
             if 0 <= u <= 255:
                 return u
             else:
-                f0(f"[提示]输入数字于0～255",1)
+                f0(f"[提示]输入数字于0～255",3)
         except ValueError:
-            f0(f"[提示]输入数字于0～255",1)
+            f0(f"[提示]输入数字于0～255",3)
 def f3():
-    u1 = f1("[材质]方块名\033[94m_",2)
-    u2 = f1("[材质]方块主色\033[94m_",2)
-    u3 = f1("[材质]方块副色\033[94m_",2)
-    c1,c2,c3 = [int(u2[u:u+2],16) for u in (0,2,4)]
-    c4,c5,c6 = [int(u3[u:u+2],16) for u in (0,2,4)]
-    f0(f"[材质]构造方块\033[94m{u1}",1)
-    return [c1,c2,c3,c4,c5,c6,int(c1*0.8),int(c2*0.8),int(c3*0.8),int(c4*0.8),int(c5*0.8),int(c6*0.8)],u1
+    u,m,n,j = f1("[材质]方块名_",3),f1("[材质]方块主色_",3),f1("[材质]方块副色_",3),0
+    c0,c1,c2,c3,c4,c5 = int(m[0:2],16),int(m[2:4],16),int(m[4:6],16),int(n[0:2],16),int(n[2:4],16),int(n[4:6],16)
+    c6,c7,c8,c9,c10,c11 = int(c0*0.8),int(c1*0.8),int(c2*0.8),int(c3*0.8),int(c4*0.8),int(c5*0.8)
+    f0(f"[材质]构造方块[{u}]",3)
+    i = Image.new('RGB',(208,208), color=(0,0,0))
+    l = ImageDraw.Draw(i)
+    a = "0000011100000001111111110022111111111223322211122233333332223333333333343333333333334333333333333433333333333343333333333334333333333333433333300333343333300000034300000"
+    for x in range(13):
+        for y in range(13):
+            aj = a[j]
+            pos = [16*y,16*x,16*(y+1),16*(x+1)]
+            if aj == "1":
+                l.rectangle(pos,fill=(c0,c1,c2))
+            if aj == "2":
+                l.rectangle(pos,fill=(c3,c4,c5))
+            if aj == "3":
+                l.rectangle(pos,fill=(c6,c7,c8))
+            if aj == "4":
+                l.rectangle(pos,fill=(c9,c10,c11))
+            j+=1
+    i.show()
+    return [c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11],u
 def f4():
-    u1 = "r/ch/" + f1("[材质]指定资源包\033[94m_",1) + "/"
+    u1 = "r/ch/" + f1("[材质]指定资源包_",2) + "/"
     if os.path.exists(u1):
         with open(u1+'a','rb') as f:u2 = pickle.load(f)
         with open(u1+'b','rb') as f:u3 = pickle.load(f)
@@ -34,7 +58,7 @@ def f4():
         u3 = ["dust" for _ in range(256)]
         with open(u1+'a','wb') as f:pickle.dump(u2,f)
         with open(u1+'b','wb') as f:pickle.dump(u3,f)
-        f0(f"[材质]创建\033[94m{u1}",1)
+        f0(f"[材质]创建_{u1}",2)
     while True:
         u4 = f2("材质")
         if u4 == 0:
@@ -46,43 +70,47 @@ def f4():
             with open(u1+'a','wb') as f:pickle.dump(u2,f)
             with open(u1+'b','wb') as f:pickle.dump(u3,f)
 def f5(s):
-    f0(s,2)
-    x = int(f1("x\033[94m_",2))
-    y = int(f1("y\033[94m_",2))
-    z = int(f1("z\033[94m_",2))
+    f0(s,3)
+    x = int(f1("x_",3))
+    y = int(f1("y_",3))
+    z = int(f1("z_",3))
     return x,y,z
 def f6(a,b,c,d):
     with open(a+'a',"wb") as f:pickle.dump(b,f)
     with open(a+'b',"wb") as f:pickle.dump(c,f)
-    f0(d,2)
+    f0(d,3)
 def f7(u,v):
     if u == 0:
-        f0("[地质]正在拆除",1)
+        f0("[地质]正在拆除",2)
         return 0
     else:
-        f0(f"[地质]持有方块\033[94m{v}",1)
+        f0(f"[地质]持有方块_{v}",2)
         return 1
 def f8(l):
-    c = "r/ch/" + f1("[制图]指定资源包\033[94m_",1) + "/"
+    c = "r/ch/" + f1("[制图]指定资源包_",2) + "/"
     if os.path.exists(c):
         with open(c+'a','rb') as f:a = pickle.load(f)
         with open(c+'b','rb') as f:b = pickle.load(f)
     else:
-        f0("[地质]未找到资源包",1)
+        f0("[雨声]未找到资源包",2)
         return
-    t = "r/tr/" + f1("[制图]指定地图册\033[94m_",1) + "/"
+    t = "r/tr/" + f1("[制图]指定地图册_",2) + "/"
     if os.path.exists(t):
         with open(t+'a','rb') as f:ta = pickle.load(f)
         with open(t+'b','rb') as f:tb = pickle.load(f)
     else:
         os.makedirs(t)
-        f0(f"[地质]创建\033[94m{t}",1)
+        f0(f"[地质]创建{t}",2)
         ta = [[[[0 for _ in range(12)] for _ in range(16)] for _ in range(16)] for _ in range(16)]
         tb = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
         with open(t+'a','wb') as f:pickle.dump(ta,f)
         with open(t+'b','wb') as f:pickle.dump(tb,f)
     if len(l) == 1:
-        l = "2." + input(f"\033[92m|\n|   \033[95m[地图册]选择支线\n\033[92m|   \033[95m2.1 放置方块\n\033[92m|   \033[95m2.2 放置方块组\n\033[92m|   \033[95m2.3 选择笔刷\n\033[92m|   \033[95m2.\033[94m_")
+        f0("",2)
+        f0("2.1 放置方块",2)
+        f0("2.2 放置方块组",2)
+        f0("2.3 选择笔刷",2)
+        l = "2." + f1(f"[地质]选择支线 2.",2)
     if l == "2.0":
         return
     d = 1
@@ -95,32 +123,34 @@ def f8(l):
             x,y,z = f5("[地质]选择坐标")
             ta[x][y][z] = p
             tb[x][y][z] = d
-            f6(t,ta,tb,f"[地质]在\033[94m({x},{y},{z})\033[95m放置方块\033[94m{q}")
+            f6(t,ta,tb,f"[地质]在({x},{y},{z})放置方块_{q}")
         elif l == "2.2":
-            x1,y1,z1 = f5("[地质]选择起点")
-            x2,y2,z2 = f5("[地质]选择终点")
+            x1,y1,z1 = f5("[地质]选择起点坐标")
+            x2,y2,z2 = f5("[地质]选择终点坐标")
             for x in range(x1,x2+1):
                 for y in range(y1,y2+1):
                     for z in range(z1,z2+1):
                         ta[x][y][z] = p
                         tb[x][y][z] = d
-            f6(t,ta,tb,f"[地质]填充\033[94m{q}\033[95m从\033[94m({x1}\033[95m,{y1},{z1})\033[95m到\033[94m({x2},{y2},{z2})")
+            f6(t,ta,tb,f"[地质]从({x1},{y1},{z1})到({x2},{y2},{z2})放置方块_{q}")
         elif l == "2.3":
-            w = f2()
-            p = ca[w]
-            q = cb[w]
+            w = f2("材质")
+            p = a[w]
+            q = b[w]
             d = f7(w,q)
-        l = "2." + f1("\033[92m|\n|   \033[95m[地质]选择支线\033[94m_",1)
+            f0("",2)
+        fi(2)
+        l = "2." + f1("2._",2)
 def f9():
-    t = "r/tr/" + f1("[制图]指定地图册\033[94m_",1) + "/"
-    u1 = "r/pl/" + f1("[制图]指定文件名\033[94m_",1) + ".png"
+    t = "r/tr/" + f1("[制图]指定地图册_",2) + "/"
     if os.path.exists(t):
         with open(t+'a','rb') as f:u2 = pickle.load(f)
         with open(t+'b','rb') as f:u3 = pickle.load(f)
     else:
-        f0(f"[制图]未找到\033[94m{t}",1)
+        f0(f"[雨声]未找到_{t}",2)
         return
-    f0("[制图]传送数据...",1)
+    u1 = f1("[制图]指定文件名_",2)+".png"
+    f0("[制图]传送数据...",2)
     u4 = [[[0 for _ in range(18)] for _ in range(18)] for _ in range(18)]
     for x in range(16):
         for y in range(16):
@@ -133,227 +163,179 @@ def f9():
         for y in range(16):
             for z in range(16):
                 if u3[x][y][z] == 1:
+                    u = [u4[x+2][y+1][z+1],u4[x][y+1][z+1],u4[x+1][y+2][z+1],u4[x+1][y][z+1],u4[x+1][y+1][z+2],u4[x+1][y+1][z]]
+                    v = u2[x][y][z]
                     a = [[(0,0,0) for _ in range(13)] for _ in range(13)]
                     b = [[0 for _ in range(13)] for _ in range(13)]
-                    u7 = u2[x][y][z]
-                    u8 = [
-                        u4[x+2][y+1][z+1],
-                        u4[ x ][y+1][z+1],
-                        u4[x+1][y+2][z+1],
-                        u4[x+1][ y ][z+1],
-                        u4[x+1][y+1][z+2],
-                        u4[x+1][y+1][ z ]]
-                    d1 = (u7[0],u7[1],u7[2])
-                    d2 = (u7[3],u7[4],u7[5])
-                    d3 = (u7[6],u7[7],u7[8])
-                    d4 = (u7[9],u7[10],u7[11])
-                    if u8[4] == 0:
-                        for i in range(2,11):a[i][1] = d1
-                        for i in range(2,11):a[i][2] = d1
-                        a[5][0] = d1
-                        a[6][0] = d1
-                        a[7][0] = d1
-                        a[5][3] = d1
-                        a[6][3] = d1
-                        a[7][3] = d1
-                        if u8[0] == 0:
-                            a[0][2] = d2
-                            a[1][2] = d2
-                            a[2][3] = d2
-                            a[3][3] = d2
-                            a[4][3] = d2
-                            a[5][4] = d2
-                            a[6][4] = d2
-                        if u8[1] == 0:
-                            b[5][0] = 2
-                            b[6][0] = 2
-                            b[7][0] = 2
-                            b[8][1] = 2
-                            b[9][1] = 2
-                            b[10][1] = 2
-                        if u8[2] == 0:
-                            a[6][4] = d2
-                            a[7][4] = d2
-                            a[8][3] = d2
-                            a[9][3] = d2
-                            a[10][3] = d2
-                            a[11][2] = d2
-                            a[12][2] = d2
-                        if u8[3] == 0:
-                            b[2][1] = 2
-                            b[3][1] = 2
-                            b[4][1] = 2
-                            b[5][0] = 2
-                            b[6][0] = 2
-                            b[7][0] = 2
-                    if u8[5] == 0:
-                        if u8[0] == 0:
-                            b[0][10] = 1
-                            b[1][10] = 1
-                            b[2][11] = 1
-                            b[3][11] = 1
-                            b[4][11] = 1
-                            b[5][12] = 1 
-                        if u8[2] == 0:
-                            b[7][12] = 1
-                            b[8][11] = 1
-                            b[9][11] = 1
-                            b[10][11] = 1
-                            b[11][10] = 1
-                            b[12][10] = 1
-                    if u8[0] == 0:
-                        if u8[3] == 0:
-                            for j in range(3,11):
-                                b[0][j] = 3
-                        for j in range(3,11):a[0][j] = d3
-                        for j in range(3,11):a[1][j] = d3
-                        for j in range(4,12):a[2][j] = d3
-                        for j in range(4,12):a[3][j] = d3
-                        for j in range(4,12):a[4][j] = d3
-                        for j in range(5,13):a[5][j] = d3
-                    if u8[2] == 0:
-                        if u8[1] == 0:
-                            for j in range(3,11):
-                                b[12][j] = 3
-                        for j in range(5,13):a[7][j] = d3
-                        for j in range(4,12):a[8][j] = d3
-                        for j in range(4,12):a[9][j] = d3
-                        for j in range(4,12):a[10][j] = d3
-                        for j in range(3,11):a[11][j] = d3
-                        for j in range(3,11):a[12][j] = d3
-                    if u8[0] == 0 and u8[2] == 0:
-                        for j in range(5,13):
-                            a[6][j] = d4
-                    m = 6 * (15 - x + y)
-                    n = 2 * (60 + x + y - 4 * z)
+                    d0,d1,d2,d3 = (v[i:i+3] for i in range(0,12,3))  
+                    if u[4] == 0:
+                        a[5][0]=a[6][0]=a[7][0]=a[5][3]=a[6][3]=a[7][3]=d0
+                        for i in range(2,11):a[i][1]=d0
+                        for i in range(2,11):a[i][2]=d0
+                        if u[0] == 0:a[0][2]=a[1][2]=a[2][3]=a[3][3]=a[4][3]=a[5][4]=a[6][4]=d1
+                        if u[1] == 0:b[5][0]=b[6][0]=b[7][0]=b[8][1]=b[9][1]=b[10][1]=2
+                        if u[2] == 0:a[6][4]=a[7][4]=a[8][3]=a[9][3]=a[10][3]=a[11][2]=a[12][2]=d1
+                        if u[3] == 0:b[2][1]=b[3][1]=b[4][1]=b[5][0]=b[6][0]=b[7][0]=2
+                    if u[5] == 0:
+                        if u[0] == 0:b[0][10]=b[1][10]=b[2][11]=b[3][11]=b[4][11]=b[5][12]=1 
+                        if u[2] == 0:b[7][12]=b[8][11]=b[9][11]=b[10][11]=b[11][10]=b[12][10]=1
+                    if u[0] == 0:
+                        if u[3] == 0:
+                            for j in range(3,11):b[0][j] = 3
+                        for j in range(3,11):a[0][j] = d2
+                        for j in range(3,11):a[1][j] = d2
+                        for j in range(4,12):a[2][j] = d2
+                        for j in range(4,12):a[3][j] = d2
+                        for j in range(4,12):a[4][j] = d2
+                        for j in range(5,13):a[5][j] = d2
+                    if u[2] == 0:
+                        if u[1] == 0:
+                            for j in range(3,11):b[12][j] = 3
+                        for j in range(5,13):a[7][j] = d2
+                        for j in range(4,12):a[8][j] = d2
+                        for j in range(4,12):a[9][j] = d2
+                        for j in range(4,12):a[10][j] = d2
+                        for j in range(3,11):a[11][j] = d2
+                        for j in range(3,11):a[12][j] = d2
+                    if u[0] == 0 and u[2] == 0:
+                        for j in range(5,13):a[6][j] = d3
+                    m,n=6*(15-x+y),2*(60+x+y-4*z)
                     for i in range(13):
-                        for j in range(2,11):
-                            u6[m+i][n+j] = 0 
-                    for i in range(2,11):
-                        u6[m+i][n+1] = 0
-                    for i in range(2,11):
-                        u6[m+i][n+11] = 0
-                    u6[m+5][n] = 0
-                    u6[m+6][n] = 0
-                    u6[m+7][n] = 0
-                    u6[m+5][n+12] = 0
-                    u6[m+6][n+12] = 0
-                    u6[m+7][n+12] = 0
+                        for j in range(2,11):u6[m+i][n+j] = 0 
+                    for i in range(2,11):u6[m+i][n+1] = 0
+                    for i in range(2,11):u6[m+i][n+11] = 0
+                    u6[m+5][n]=u6[m+6][n]=u6[m+7][n]=u6[m+5][n+12]=u6[m+6][n+12]=u6[m+7][n+12]=0
                     for i in range(13):
                         for j in range(13):
                             if a[i][j] != (0,0,0):
                                 u5[m+i][n+j] = a[i][j]
                                 u6[m+i][n+j] = b[i][j]
-    u0 = Image.new('RGBA',(193,193), color=(255, 255, 255, 0))
-    for i in range(193):
-        for j in range(193):
-            r,g,b = u5[i][j]
+    p = []    
+    for j in range(193):  
+        w = []  
+        for i in range(193):
+            r,g,b = u5[i][j]  
             if u6[i][j] == 1:
-                r = int(r*0.9)
-                g = int(g*0.9)
-                b = int(b*0.9) 
-            elif u6[i][j] == 2:
-                r = int(r*0.7)+63
-                g = int(g*0.7)+63
-                b = int(b*0.7)+63
-            elif u6[i][j] == 3:
-                r = int(r*0.8)
-                g = int(g*0.8)
-                b = int(b*0.8)
-            u0.putpixel((i,j),(r,g,b,255))
+                r,g,b=int(r*0.9),int(g*0.9),int(b*0.9)  
+            elif u6[i][j]==2:
+                r,g,b=int(r*0.7)+63,int(g*0.7)+63,int(b*0.7)+63  
+            elif u6[i][j]==3:
+                r,g,b=int(r*0.8),int(g*0.8),int(b*0.8)  
+            w.append((r,g,b))
+        p.append(w)
+    u0=Image.new('RGB',(193,193), color=(255, 255, 255))   
+    u0.putdata([l for w in p for l in w])
     u0.save(u1)
-    f0(f"\n[制图]生成图像\033[94m{u1}\n",1)
+    print(f"\n[制图]生成图像[{u1}]")
     u0.show()
-def fa(l):
-    if len(l) == 1:
-        l = "4." + input(f"[检查]选择支线\n4.1 查看文件目录\n4.2 检查资源包\n4.3 检查地图册\n\033[94m4._")
-    if l == "4.0":
-        return
-    elif l == "4.1":
-        fb( )
-    elif l == "4.2":
-        fc( )
-    elif l == "4.3":
-        fd( )
 def fb():
-    l = []
-    f0("[检查]传送数据...\n",1)
+    l=[]
+    f0("[检查]传送数据...",1)
+    fg()
+    print("[查看文件目录]")
     u=os.path.abspath('.')
     for v,_,x in os.walk(u):
         y=v.replace(u,'').count(os.sep)
-        z='|   '*y
-        h=f"{z}[{os.path.basename(v)}]"
+        h="|   "*y+f"[{os.path.basename(v)}]"
         l.append(h+'_'*(34 - len(h))+"\n")
         m='|   '*(y+1)
         l.extend(f'{m}{n}\n' for n in x)
-    print(f"\033[90m{''.join(l)}")
+    print("".join(l))
+    fg()
 def fc():
-    h = f1(f"[检查]指定资源包\033[94m_",1)
+    h = f1(f"[检查]指定资源包_",1)
     try:
-        with open(f'r/ch/{h}/b','rb') as f:
-            c = pickle.load(f)
+        with open(f"r/ch/{h}/b","rb") as f:c=pickle.load(f)
     except Exception:
-        f0(f"[检查]未找到资源包\033[94m{h}",1)
+        f0(f"[雨声]未找到资源包_{h}",1)
     p = []
     for i in range(64):
         for j in range(4):
             k=i+j*64
             p.append(f"[{k}]_{c[k]}".ljust(20))
         p.append("\n")
-    o = ''.join(p)
-    f0(f"[查看资源包\033[94m{h}",1)
-    print(f"\033[90m{o}")
+    fg()
+    print(f"[检查]查看资源包_{h}")
+    print(''.join(p))
+    fg()
 def fd():
-    t = "r/tr/" + f1("[制图]指定地图册\033[94m_",1) + "/"
-    with open(t+'a','rb') as f:
-        ta = pickle.load(f)
+    t = "r/tr/" + f1("[检查]指定地图册_",1) + "/"
+    try:
+        with open(t+'a','rb') as f:ta = pickle.load(f)
+    except Exception:
+        f1("[雨声]未找到地图册",1)
     i = Image.open("lab.png")
     l = ImageDraw.Draw(i)
     for z in range(16):
         for y in range(16):
             for x in range(16):
-                c = (ta[x][y][z][0],ta[x][y][z][1],ta[x][y][z][2])
-                if c != (0,0,0):
-                    l.rectangle([16*x+2,16*y+4*z+2,16*x+18,16*y+4*z+18],fill=c)
-    f0(f"[查看地图册]\033[94m{t}\n",1)
+                c = (ta[x][y][z][0],ta[x][y][z][1],ta[x][y][z][2]) 
+                if c!= (0,0,0):
+                    l.rectangle([16*x+2,16*y+288*z+2,16*x+17,16*y+288*z+17],fill=c)
+    fg()
+    print(f"[查看地检查]图册{t}")
     i.show()
+    fg()
+def fa(l):
+    if len(l) == 1:
+        f0("4.1 文件目录",2)
+        f0("4.2 查看预设",2)
+        f0("4.3 查看地图册",2)
+        l = "4." + f1("[检查]选择支线 4.",1)
+    if l == "4.0":
+        return
+    elif l == "4.1":fb( )
+    elif l == "4.2":fc( )
+    elif l == "4.3":fd( )
 def fe():
     print("[pickle转json]")
-    p = f1("[pickle]\033[94m_",1)
-    j = f1("[json]\033[94m_",1)
+    p = f1("[雨声]指定pickle_",2)
+    j = f1("[雨声]指定json_",2)
     with open(p,'rb') as f:
         d = pickle.load(f)
     try:
-        d = json.dumps(d, indent=4)
+        d = json.dumps(d,indent=1)
         with open(j,'w') as f:
             f.write(d)
-        print(f"保存为\033[94m{j}")
+        f0(f"[雨声]保存文件_{j}",2)
     except Exception as e:print(e)
 def ff():
     print("[json转pickle]")
-    j = f1("[json]\033[94m_",1)
-    p = f1("[pickle]\033[94m_",1)
+    j = f1("[雨声]指定json_",2)
+    p = f1("[雨声]指定pickle_",2)
     with open(j,'r') as f:
         d = json.load(f)
     with open(p,'wb') as f:
         pickle.dump(d,f)
-    print(f"保存为\033[94m{p}")
-print("\033[92m[星光]1.9.3")
+    f0(f"[雨声]保存文件_{p}",2)
+print("[星光]1.12.4")
 while True:
-    l = input("\n__________________________________\n[雨声]选择支线\033[94m_")
-    if l == "0" or len(l) == 0:
+    fi(1)
+    l = f1("[雨声]选择支线_",1)
+    if l == "0":
         break
-    elif l[0] == "1":
-        f4( )
-    elif l[0] == "2":
-        f8(l)
-    elif l[0] == "3":
-        f9( )
-    elif l[0] == "4":
-        fa(l)
-    elif l[0] == "5":
-        fe( )
-    elif l[0] == "6":
-        ff( )
+    elif l[0] == "1":f4( )
+    elif l[0] == "2":f8(l)
+    elif l[0] == "3":f9( )
+    elif l[0] == "4":fa(l)
+    elif l[0] == "5":fe( )
+    elif l[0] == "6":ff( )
     else:
-        print("\n\033[90m__________________________________\n[提示]\n1[编辑资源包]\n2[编辑地图册]\n|   2.1[放置单个方块]\n|   2.2[放置方块组]\n|   2.3[设置笔刷]\n3[生成例图]\n4[检查目录]\n|   4.1[检查文件目录]\n|   4.2[检查资源包]\n|   4.3[检查地图册]\n5[导入资源包]\n6[导出资源包]")
+        fg()
+        print("""
+[提示]
+1[编辑资源包]
+2[编辑地图册]
+|   2.1[放置单个方块]
+|   |选择坐标
+|   2.2[放置方块组]
+｜
+|   2.3[设置笔刷]
+3[生成例图]
+4[检查目录]
+|   4.1[检查文件目录]
+|   4.2[检查资源包]
+|   4.3[检查地图册]
+5[导入资源包]
+6[导出资源包]""")
+        fg()
