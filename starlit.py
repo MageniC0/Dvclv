@@ -1,5 +1,7 @@
 ﻿import os,pickle,json
 from PIL import Image,ImageDraw
+#本程序[starlit星光]由Dustormn风尘结社开发，由后勤部负责人MageniC（磁砖）主持开发工作，受到版权法保护。
+#禁止私自转载或商业性质使用。
 def s1():
     print("_"*68)
 def s2(n):
@@ -11,7 +13,7 @@ def s4(s,n):
     if len(a) == 0:
         return "0"
     return a
-def g1(s):
+def g0(s):
     while True:
         s2(2)
         u = s4(f"[{s}]选择方块_",2)
@@ -23,7 +25,7 @@ def g1(s):
                 s3(f"[提示]输入数字于0～255",3)
         except ValueError:
             s3(f"[提示]输入数字于0～255",3)
-def f3():
+def g1():
     u,m,n,j = s4("[材质]方块名_",3),s4("[材质]方块主色_",3),s4("[材质]方块副色_",3),0
     c0,c1,c2,c3,c4,c5 = int(m[0:2],16),int(m[2:4],16),int(m[4:6],16),int(n[0:2],16),int(n[2:4],16),int(n[4:6],16)
     c6,c7,c8,c9,c10,c11 = int(c0*0.8),int(c1*0.8),int(c2*0.8),int(c3*0.8),int(c4*0.8),int(c5*0.8)
@@ -46,7 +48,7 @@ def f3():
             j+=1
     i.show()
     return [c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11],u
-def f4():
+def g2():
     u1 = "r/ch/" + s4("[材质]指定资源包_",2) + "/"
     if os.path.exists(u1):
         with open(u1+'a','rb') as f:u2 = pickle.load(f)
@@ -59,33 +61,34 @@ def f4():
         with open(u1+'b','wb') as f:pickle.dump(u3,f)
         s3(f"[材质]创建_{u1}",2)
     while True:
-        u4 = g1("材质")
+        u4 = g0("材质")
         if u4 == 0:
             return
         else:
-            u5,u6 = f3()
+            u5,u6 = g1()
             u2[u4] = u5
             u3[u4] = u6
             with open(u1+'a','wb') as f:pickle.dump(u2,f)
             with open(u1+'b','wb') as f:pickle.dump(u3,f)
-def f5(s):
+def g3(s):
+def g4(s):
     s3(s,3)
     x = int(s4("x_",3))
     y = int(s4("y_",3))
     z = int(s4("z_",3))
     return x,y,z
-def f6(a,b,c,d):
+def g5(a,b,c,d):
     with open(a+'a',"wb") as f:pickle.dump(b,f)
     with open(a+'b',"wb") as f:pickle.dump(c,f)
     s3(d,3)
-def f7(u,v):
+def s0(u,v):
     if u == 0:
         s3("[地质]正在拆除",2)
         return 0
     else:
         s3(f"[地质]持有方块_{v}",2)
         return 1
-def f8(l):
+def g6(l):
     c = "r/ch/" + s4("[制图]指定资源包_",2) + "/"
     if os.path.exists(c):
         with open(c+'a','rb') as f:a = pickle.load(f)
@@ -119,28 +122,28 @@ def f8(l):
         if l == "2.0":
             return
         elif l == "2.1":
-            x,y,z = f5("[地质]选择坐标")
+            x,y,z = g3("[地质]选择坐标")
             ta[x][y][z] = p
             tb[x][y][z] = d
-            f6(t,ta,tb,f"[地质]在({x},{y},{z})放置方块_{q}")
+            g5(t,ta,tb,f"[地质]在({x},{y},{z})放置方块_{q}")
         elif l == "2.2":
-            x1,y1,z1 = f5("[地质]选择起点坐标")
-            x2,y2,z2 = f5("[地质]选择终点坐标")
+            x1,y1,z1 = g3("[地质]选择起点坐标")
+            x2,y2,z2 = g3("[地质]选择终点坐标")
             for x in range(x1,x2+1):
                 for y in range(y1,y2+1):
                     for z in range(z1,z2+1):
                         ta[x][y][z] = p
                         tb[x][y][z] = d
-            f6(t,ta,tb,f"[地质]从({x1},{y1},{z1})到({x2},{y2},{z2})放置方块_{q}")
+            g5(t,ta,tb,f"[地质]从({x1},{y1},{z1})到({x2},{y2},{z2})放置方块_{q}")
         elif l == "2.3":
-            w = g1("材质")
+            w = g0("材质")
             p = a[w]
             q = b[w]
-            d = f7(w,q)
+            d = s0(w,q)
             s3("",2)
         s2(2)
         l = "2." + s4("2._",2)
-def f9():
+def g7():
     t = "r/tr/" + s4("[制图]指定地图册_",2) + "/"
     if os.path.exists(t):
         with open(t+'a','rb') as f:u2 = pickle.load(f)
@@ -227,7 +230,7 @@ def f9():
     u0.save(u1)
     print(f"\n[制图]生成图像[{u1}]")
     u0.show()
-def fb():
+def f0():
     l=[]
     s3("[检查]传送数据...",1)
     s1()
@@ -241,7 +244,7 @@ def fb():
         l.extend(f'{m}{n}\n' for n in x)
     print("".join(l))
     s1()
-def fc():
+def f1():
     h = s4(f"[检查]指定资源包_",1)
     try:
         with open(f"r/ch/{h}/b","rb") as f:c=pickle.load(f)
@@ -257,7 +260,7 @@ def fc():
     print(f"[检查]查看资源包_{h}")
     print(''.join(p))
     s1()
-def fd():
+def f2():
     t = "r/tr/" + s4("[检查]指定地图册_",1) + "/"
     try:
         with open(t+'a','rb') as f:ta = pickle.load(f)
@@ -275,7 +278,7 @@ def fd():
     print(f"[查看地检查]图册{t}")
     i.show()
     s1()
-def fa(l):
+def f3(l):
     if len(l) == 1:
         s3("4.1 文件目录",2)
         s3("4.2 查看预设",2)
@@ -283,10 +286,10 @@ def fa(l):
         l = "4." + s4("[检查]选择支线 4.",1)
     if l == "4.0":
         return
-    elif l == "4.1":fb( )
-    elif l == "4.2":fc( )
-    elif l == "4.3":fd( )
-def fe():
+    elif l == "4.1":f0( )
+    elif l == "4.2":f1( )
+    elif l == "4.3":f2( )
+def p0():
     print("[pickle转json]")
     p = s4("[雨声]指定pickle_",2)
     j = s4("[雨声]指定json_",2)
@@ -298,7 +301,7 @@ def fe():
             f.write(d)
         s3(f"[雨声]保存文件_{j}",2)
     except Exception as e:print(e)
-def ff():
+def p1():
     print("[json转pickle]")
     j = s4("[雨声]指定json_",2)
     p = s4("[雨声]指定pickle_",2)
@@ -313,12 +316,12 @@ while True:
     l = s4("[雨声]选择支线_",1)
     if l == "0":
         break
-    elif l[0] == "1":f4( )
-    elif l[0] == "2":f8(l)
-    elif l[0] == "3":f9( )
-    elif l[0] == "4":fa(l)
-    elif l[0] == "5":fe( )
-    elif l[0] == "6":ff( )
+    elif l[0] == "1":g2( )
+    elif l[0] == "2":g6(l)
+    elif l[0] == "3":g7( )
+    elif l[0] == "4":f3(l)
+    elif l[0] == "5":p0( )
+    elif l[0] == "6":p1( )
     else:
         s1()
         print("""
