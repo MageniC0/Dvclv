@@ -3,16 +3,16 @@ from PIL import Image,ImageDraw
 #本程序[starlit星光]由Dustormn风尘结社开发，由后勤部负责人MageniC（磁砖）主持开发工作，受到版权法保护。
 #禁止私自转载或商业性质使用。
 def s1():
-    print("_"*68)
+    print("033[92m"+"_"*68)
 def s2(n):
-    print("|   "*n)
+    print("\033[92m"+"|   "*n)
 def s3(s,n):
-    print('|   '*n+s)
+    print("\033[92m"+"|   "*n+"\033[0m"+s)
 def s4(s,n):
-    a = input('|   '*n+s)
+    a = input("\033[92m"+"|   "*n+s+"\033[94m"+"_")
     if len(a) == 0:
         return "0"
-    return a
+    return s
 def g0(s):
     while True:
         s2(2)
