@@ -2,6 +2,7 @@
 from PIL import Image,ImageDraw
 #本程序[starlit星光]由Dustormn风尘结社开发，由后勤部负责人MageniC（磁砖）主持开发工作，受到版权法保护。
 #禁止私自转载或商业性质使用。
+#此版本为没有文本色彩样式的副本
 def s1():
     print("_"*68)
 def s2(n):
