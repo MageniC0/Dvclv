@@ -1,34 +1,33 @@
 ﻿import os,pickle,json
 from PIL import Image,ImageDraw
-def fg():
+def s1():
     print("_"*68)
-def fi(n):
-    s="|   "*n
-    print(s)
-def f0(s,z):
-    print('|   '*z+s)
-def f1(s,z):
-    a = input('|   '*z+s)
+def s2(n):
+    print("|   "*n)
+def s3(s,n):
+    print('|   '*n+s)
+def s4(s,n):
+    a = input('|   '*n+s)
     if len(a) == 0:
         return "0"
     return a
-def f2(s):
+def g1(s):
     while True:
-        fi(2)
-        u = f1(f"[{s}]选择方块_",2)
+        s2(2)
+        u = s4(f"[{s}]选择方块_",2)
         try:
             u = int(u)
             if 0 <= u <= 255:
                 return u
             else:
-                f0(f"[提示]输入数字于0～255",3)
+                s3(f"[提示]输入数字于0～255",3)
         except ValueError:
-            f0(f"[提示]输入数字于0～255",3)
+            s3(f"[提示]输入数字于0～255",3)
 def f3():
-    u,m,n,j = f1("[材质]方块名_",3),f1("[材质]方块主色_",3),f1("[材质]方块副色_",3),0
+    u,m,n,j = s4("[材质]方块名_",3),s4("[材质]方块主色_",3),s4("[材质]方块副色_",3),0
     c0,c1,c2,c3,c4,c5 = int(m[0:2],16),int(m[2:4],16),int(m[4:6],16),int(n[0:2],16),int(n[2:4],16),int(n[4:6],16)
     c6,c7,c8,c9,c10,c11 = int(c0*0.8),int(c1*0.8),int(c2*0.8),int(c3*0.8),int(c4*0.8),int(c5*0.8)
-    f0(f"[材质]构造方块[{u}]",3)
+    s3(f"[材质]构造方块[{u}]",3)
     i = Image.new('RGB',(208,208), color=(0,0,0))
     l = ImageDraw.Draw(i)
     a = "0000011100000001111111110022111111111223322211122233333332223333333333343333333333334333333333333433333333333343333333333334333333333333433333300333343333300000034300000"
@@ -48,7 +47,7 @@ def f3():
     i.show()
     return [c0,c1,c2,c3,c4,c5,c6,c7,c8,c9,c10,c11],u
 def f4():
-    u1 = "r/ch/" + f1("[材质]指定资源包_",2) + "/"
+    u1 = "r/ch/" + s4("[材质]指定资源包_",2) + "/"
     if os.path.exists(u1):
         with open(u1+'a','rb') as f:u2 = pickle.load(f)
         with open(u1+'b','rb') as f:u3 = pickle.load(f)
@@ -58,9 +57,9 @@ def f4():
         u3 = ["dust" for _ in range(256)]
         with open(u1+'a','wb') as f:pickle.dump(u2,f)
         with open(u1+'b','wb') as f:pickle.dump(u3,f)
-        f0(f"[材质]创建_{u1}",2)
+        s3(f"[材质]创建_{u1}",2)
     while True:
-        u4 = f2("材质")
+        u4 = g1("材质")
         if u4 == 0:
             return
         else:
@@ -70,47 +69,47 @@ def f4():
             with open(u1+'a','wb') as f:pickle.dump(u2,f)
             with open(u1+'b','wb') as f:pickle.dump(u3,f)
 def f5(s):
-    f0(s,3)
-    x = int(f1("x_",3))
-    y = int(f1("y_",3))
-    z = int(f1("z_",3))
+    s3(s,3)
+    x = int(s4("x_",3))
+    y = int(s4("y_",3))
+    z = int(s4("z_",3))
     return x,y,z
 def f6(a,b,c,d):
     with open(a+'a',"wb") as f:pickle.dump(b,f)
     with open(a+'b',"wb") as f:pickle.dump(c,f)
-    f0(d,3)
+    s3(d,3)
 def f7(u,v):
     if u == 0:
-        f0("[地质]正在拆除",2)
+        s3("[地质]正在拆除",2)
         return 0
     else:
-        f0(f"[地质]持有方块_{v}",2)
+        s3(f"[地质]持有方块_{v}",2)
         return 1
 def f8(l):
-    c = "r/ch/" + f1("[制图]指定资源包_",2) + "/"
+    c = "r/ch/" + s4("[制图]指定资源包_",2) + "/"
     if os.path.exists(c):
         with open(c+'a','rb') as f:a = pickle.load(f)
         with open(c+'b','rb') as f:b = pickle.load(f)
     else:
-        f0("[雨声]未找到资源包",2)
+        s3("[雨声]未找到资源包",2)
         return
-    t = "r/tr/" + f1("[制图]指定地图册_",2) + "/"
+    t = "r/tr/" + s4("[制图]指定地图册_",2) + "/"
     if os.path.exists(t):
         with open(t+'a','rb') as f:ta = pickle.load(f)
         with open(t+'b','rb') as f:tb = pickle.load(f)
     else:
         os.makedirs(t)
-        f0(f"[地质]创建{t}",2)
+        s3(f"[地质]创建{t}",2)
         ta = [[[[0 for _ in range(12)] for _ in range(16)] for _ in range(16)] for _ in range(16)]
         tb = [[[0 for _ in range(16)] for _ in range(16)] for _ in range(16)]
         with open(t+'a','wb') as f:pickle.dump(ta,f)
         with open(t+'b','wb') as f:pickle.dump(tb,f)
     if len(l) == 1:
-        f0("",2)
-        f0("2.1 放置方块",2)
-        f0("2.2 放置方块组",2)
-        f0("2.3 选择笔刷",2)
-        l = "2." + f1(f"[地质]选择支线 2.",2)
+        s3("",2)
+        s3("2.1 放置方块",2)
+        s3("2.2 放置方块组",2)
+        s3("2.3 选择笔刷",2)
+        l = "2." + s4(f"[地质]选择支线 2.",2)
     if l == "2.0":
         return
     d = 1
@@ -134,23 +133,23 @@ def f8(l):
                         tb[x][y][z] = d
             f6(t,ta,tb,f"[地质]从({x1},{y1},{z1})到({x2},{y2},{z2})放置方块_{q}")
         elif l == "2.3":
-            w = f2("材质")
+            w = g1("材质")
             p = a[w]
             q = b[w]
             d = f7(w,q)
-            f0("",2)
-        fi(2)
-        l = "2." + f1("2._",2)
+            s3("",2)
+        s2(2)
+        l = "2." + s4("2._",2)
 def f9():
-    t = "r/tr/" + f1("[制图]指定地图册_",2) + "/"
+    t = "r/tr/" + s4("[制图]指定地图册_",2) + "/"
     if os.path.exists(t):
         with open(t+'a','rb') as f:u2 = pickle.load(f)
         with open(t+'b','rb') as f:u3 = pickle.load(f)
     else:
-        f0(f"[雨声]未找到_{t}",2)
+        s3(f"[雨声]未找到_{t}",2)
         return
-    u1 = f1("[制图]指定文件名_",2)+".png"
-    f0("[制图]传送数据...",2)
+    u1 = s4("[制图]指定文件名_",2)+".png"
+    s3("[制图]传送数据...",2)
     u4 = [[[0 for _ in range(18)] for _ in range(18)] for _ in range(18)]
     for x in range(16):
         for y in range(16):
@@ -230,8 +229,8 @@ def f9():
     u0.show()
 def fb():
     l=[]
-    f0("[检查]传送数据...",1)
-    fg()
+    s3("[检查]传送数据...",1)
+    s1()
     print("[查看文件目录]")
     u=os.path.abspath('.')
     for v,_,x in os.walk(u):
@@ -241,29 +240,29 @@ def fb():
         m='|   '*(y+1)
         l.extend(f'{m}{n}\n' for n in x)
     print("".join(l))
-    fg()
+    s1()
 def fc():
-    h = f1(f"[检查]指定资源包_",1)
+    h = s4(f"[检查]指定资源包_",1)
     try:
         with open(f"r/ch/{h}/b","rb") as f:c=pickle.load(f)
     except Exception:
-        f0(f"[雨声]未找到资源包_{h}",1)
+        s3(f"[雨声]未找到资源包_{h}",1)
     p = []
     for i in range(64):
         for j in range(4):
             k=i+j*64
             p.append(f"[{k}]_{c[k]}".ljust(20))
         p.append("\n")
-    fg()
+    s1()
     print(f"[检查]查看资源包_{h}")
     print(''.join(p))
-    fg()
+    s1()
 def fd():
-    t = "r/tr/" + f1("[检查]指定地图册_",1) + "/"
+    t = "r/tr/" + s4("[检查]指定地图册_",1) + "/"
     try:
         with open(t+'a','rb') as f:ta = pickle.load(f)
     except Exception:
-        f1("[雨声]未找到地图册",1)
+        s4("[雨声]未找到地图册",1)
     i = Image.open("lab.png")
     l = ImageDraw.Draw(i)
     for z in range(16):
@@ -272,16 +271,16 @@ def fd():
                 c = (ta[x][y][z][0],ta[x][y][z][1],ta[x][y][z][2]) 
                 if c!= (0,0,0):
                     l.rectangle([16*x+2,16*y+288*z+2,16*x+17,16*y+288*z+17],fill=c)
-    fg()
+    s1()
     print(f"[查看地检查]图册{t}")
     i.show()
-    fg()
+    s1()
 def fa(l):
     if len(l) == 1:
-        f0("4.1 文件目录",2)
-        f0("4.2 查看预设",2)
-        f0("4.3 查看地图册",2)
-        l = "4." + f1("[检查]选择支线 4.",1)
+        s3("4.1 文件目录",2)
+        s3("4.2 查看预设",2)
+        s3("4.3 查看地图册",2)
+        l = "4." + s4("[检查]选择支线 4.",1)
     if l == "4.0":
         return
     elif l == "4.1":fb( )
@@ -289,29 +288,29 @@ def fa(l):
     elif l == "4.3":fd( )
 def fe():
     print("[pickle转json]")
-    p = f1("[雨声]指定pickle_",2)
-    j = f1("[雨声]指定json_",2)
+    p = s4("[雨声]指定pickle_",2)
+    j = s4("[雨声]指定json_",2)
     with open(p,'rb') as f:
         d = pickle.load(f)
     try:
         d = json.dumps(d,indent=1)
         with open(j,'w') as f:
             f.write(d)
-        f0(f"[雨声]保存文件_{j}",2)
+        s3(f"[雨声]保存文件_{j}",2)
     except Exception as e:print(e)
 def ff():
     print("[json转pickle]")
-    j = f1("[雨声]指定json_",2)
-    p = f1("[雨声]指定pickle_",2)
+    j = s4("[雨声]指定json_",2)
+    p = s4("[雨声]指定pickle_",2)
     with open(j,'r') as f:
         d = json.load(f)
     with open(p,'wb') as f:
         pickle.dump(d,f)
-    f0(f"[雨声]保存文件_{p}",2)
+    s3(f"[雨声]保存文件_{p}",2)
 print("[星光]1.12.4")
 while True:
-    fi(1)
-    l = f1("[雨声]选择支线_",1)
+    s2(1)
+    l = s4("[雨声]选择支线_",1)
     if l == "0":
         break
     elif l[0] == "1":f4( )
@@ -321,7 +320,7 @@ while True:
     elif l[0] == "5":fe( )
     elif l[0] == "6":ff( )
     else:
-        fg()
+        s1()
         print("""
 [提示]
 1[编辑资源包]
@@ -338,4 +337,4 @@ while True:
 |   4.3[检查地图册]
 5[导入资源包]
 6[导出资源包]""")
-        fg()
+        s1()
