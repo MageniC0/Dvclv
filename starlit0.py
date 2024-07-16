@@ -71,7 +71,6 @@ def g2():
             with open(u1+'a','wb') as f:pickle.dump(u2,f)
             with open(u1+'b','wb') as f:pickle.dump(u3,f)
 def g3(s):
-def g4(s):
     s3(s,3)
     x = int(s4("x_",3))
     y = int(s4("y_",3))
@@ -310,7 +309,7 @@ def p1():
     with open(p,'wb') as f:
         pickle.dump(d,f)
     s3(f"[雨声]保存文件_{p}",2)
-print("[星光]1.12.4")
+print("[星光]_1.12.4")
 while True:
     s2(1)
     l = s4("[雨声]选择支线_",1)
