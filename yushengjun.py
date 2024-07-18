@@ -1,5 +1,6 @@
 class ysj:
     def __init__(self,theme):
+        print('_'*199)
         self.theme = theme
         print(self.theme)
         self.ind = 1
@@ -25,7 +26,6 @@ class ysj:
         return inp
 
 pr = ysj("test")
-pr.pur()
 pr.voidline()
 pr.adl()
 pr.printline("别炸了！")
