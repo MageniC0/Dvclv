@@ -8,11 +8,18 @@ class ysj:
         self.dawn = '\033[90m'
         self.dawn1 = '\033[91m'
         self.dawn2 = '\033[92m'
+        self.dawn3 = '\033[93m'
         self.dawn4 = '\033[94m'
+        self.dawn5 = '\033[95m'
     
-    def adl(self):
+    def lad(self):
         self.ind += 1
-    def pur(self):
+    def lsi(self):
+        if self.ind != 0:
+            self.ind -= 1
+        else:
+            raise ValueError("unexpected value 0.")
+    def purline(self):
         print('_' * 39)
     def voidline(self):
         print(f'{self.dawn2}{self.ash*self.ind}')
@@ -22,9 +29,3 @@ class ysj:
         return input(f'{self.dawn2}{self.ash*self.ind}{self.dawn}{string}{self.dawn4}_')
     def callline(self,string,object):
         print(f'{self.dawn2}{self.ash*self.ind}{string}{self.dawn4}{object}')
-'''
-pr = ysj("test")
-pr.voidline()
-pr.adl()
-pr.printline("别炸了！")
-'''
