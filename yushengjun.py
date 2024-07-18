@@ -1,5 +1,6 @@
 class ysj:
     def __init__(self,theme):
+        self.theme = theme
         self.ind = 1
         self.ash = '|   '
         self.dawn = '\033[0m'
