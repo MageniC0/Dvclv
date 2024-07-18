@@ -23,7 +23,7 @@ int main() {
 }
 
 void urln() {
-    printf("_");
+    printf("_"*68);
 }
 
 void vdln() {
@@ -31,14 +31,14 @@ void vdln() {
 }
 
 void prln(const char* string) {
-    printf("%s%s%s%s", YELLOW, ash, RESET, string);
+    printf("%s%s%s%s", dawn2, ash, dawn, string);
 }
 
 char* inln(const char* string) {
-    printf("%s%s%s_ ", YELLOW, ash, RESET);
+    printf("%s%s%s_ ", dawn2, ash, dawn4);
     return fgets(stdin, 100, stdin);
 }
 
 void clln(const char* string, const char* object) {
-    printf("%s%s%s%s%s%s", YELLOW, ash, string, PURPLE, object, RESET);
+    printf("%s%s%s%s%s%s", dawn2, ash, string, dawn, object, dawn4);
 }
