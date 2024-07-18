@@ -14,7 +14,7 @@ class ysj:
     def voidline(self):print(f'{self.dawn2}{self.ash*self.ind}')
     def printline(self,string):print(f'{self.dawn2}{self.ash*self.ind}{self.dawn}{string}')
     def inputline(self,string):return input(f'{self.dawn2}{self.ash*self.ind}{self.dawn}{string}{self.dawn4}_')
-    def callline(self,string,object):print(f'{self.dawn2}{self.ash*self.ind}{string}{dawn4}{object}')
+    def callline(self,string,object):print(f'{self.dawn2}{self.ash*self.ind}{string}{self.dawn4}{object}')
 
 pr = ysj("test")
 pr.voidline()
