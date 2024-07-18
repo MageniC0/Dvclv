@@ -1,29 +1,8 @@
 import os,pickle,json,time
 from PIL import Image,ImageDraw
-def s0():
-    print("\033[92m"+"_"*68)
-def s1():
-    print("\033[92m|   ")
-def s2():
-    print("\033[92m|   |   ")
-def s3(s):
-    print(f"\033[92m|   \033[0m{s}")
-def s4(s):
-    print(f"\033[92m|   |   \033[0m{s}")
-def s5(s,m):
-    print(f"\033[92m|   \033[0m{s}\033[94m{m}")
-def s6(s,m):
-    print(f"\033[92m|   |   \033[0m{s}\033[94m{m}")
-def s7(s):
-    a = input(f"\033[92m|   \033[0m{s}\033[94m_")
-    if len(a) == 0:
-        return "0"
-    return a
-def s8(s):
-    a = input(f"\033[92m|   |   \033[0m{s}\033[94m_")
-    if len(a) == 0:
-        return "0"
-    return a
+from yushengjun import ysj
+#Copyright Dustormn
+#风尘结社版权所有
 def h0(s):
     while True:
         s2()
