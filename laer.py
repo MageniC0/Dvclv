@@ -1,33 +1,34 @@
 import os,pickle,json,time
 from PIL import Image,ImageDraw
 from yushengjun import ysj
-#Copyright Dustormn
-#风尘结社版权所有
-def h0(s):
-    while True:
-        s2()
-        u = s8(f"[{s}]选择方块")
-        try:
-            u = int(u)
-            if 0 <= u <= 255:
-                return u
-            else:
-                s4(f"[提示]输入数字于0～255")
-        except ValueError:
-            s4(f"[提示]输入数字于0～255")
-def h1(s):
-    s4(s)
-    x = int(s8("x"))
-    y = int(s8("y"))
-    z = int(s8("z"))
-    return x,y,z
-def h2(u,v):
-    if u == 0:
-        s3("[地质]正在拆除")
+#  © 2024 Dustormn.  All rights reserved.
+
+yu = ysj("[stralit] 1.16.0")
+
+#h for number input
+def h0(string):
+    mu = yu.inputline(f"[{string}]select cube")
+    try:
+        mu = int(mu)
+        if 0 <= mu <= 255:
+            return mu
+        else:
+            yu.printline(f"[magenic]input number 0-255")
+    except Exception:
+        yu.printline(f"[magenic]input number 0-255")
+
+def h1():
+    for mu in ['x','y','z']:
+        yield int(yu.inputline(mu))
+
+def h2(mu,object):
+    if mu == 0:
+        yu.printline("[trr]deleteing")
         return 0
     else:
-        s5(f"[地质]持有方块",v)
+        yu.callline(f"[trr]puting cube",v)
         return 1
+
 def g0():
     u = s8("[材质]方块名")
     m = s8("[材质]方块主色")
