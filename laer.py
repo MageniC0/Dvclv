@@ -4,58 +4,45 @@ from PIL import Image,ImageDraw
 
 print('_'*39)
 print('[starlit] 1.16.0')
-ind = 1
-        self.ash = '|   '
-        self.dawn = '\033[0m'
-        self.dawn = '\033[90m'
-        self.dawn1 = '\033[91m'
-        self.dawn2 = '\033[92m'
-        self.dawn3 = '\033[93m'
-        self.dawn4 = '\033[94m'
-        self.dawn5 = '\033[95m'
-    
-    def lad(self):
-        self.ind += 1
-    def lsi(self):
-        if self.ind != 0:
-            self.ind -= 1
-        else:
-            raise ValueError("unexpected value 0.")
-    def purline(self):
-        print('_' * 39)
-    def voidline(self):
-        print(f'{self.dawn2}{self.ash*self.ind}')
-    def printline(self,string):
-        print(f'{self.dawn2}{self.ash*self.ind}{self.dawn}{string}')
-    def inputline(self,string):
-        return input(f'{self.dawn2}{self.ash*self.ind}{self.dawn}{string}{self.dawn4}_')
-    def callline(self,string,object):
-        print(f'{self.dawn2}{self.ash*self.ind}{string}{self.dawn4}{object}')
 
-yu = ysj("[stralit] 1.16.0")
+#text indent
+ind = 1
+ash = '|   '
+
+#
+br = 1
+
+#text color
+dawn = '\033[0m'
+dawn0 = '\033[90m'
+dawn1 = '\033[91m'
+dawn2 = '\033[92m'
+dawn3 = '\033[93m'
+dawn4 = '\033[94m'
+dawn5 = '\033[95m'
+
+def urln():print('_' * 39)
+def vdln():print(f'{dawn2}{ash*ind}')
+def prln(string):print(f'{dawn2}{ash*ind}{dawn}{string}')
+def inln(string):return input(f'{dawn2}{ash*ind}{dawn}{string}{dawn4}_')
+def clln(string,object):print(f'{dawn2}{ash*ind}{string}{dawn4}{object}')
 
 #h for number input
 def h0(string):
-    mu = yu.inputline(f"[{string}]select cube")
-    try:
-        mu = int(mu)
-        if 0 <= mu <= 255:
-            return mu
-        else:
-            yu.printline(f"[magenic]input number 0-255")
-    except Exception:
-        yu.printline(f"[magenic]input number 0-255")
-
+    mu = int(yu.inln(f"[{string}]select cube"))
+    if 0 <= mu <= 255:
+        return mu
+    else:
+        prln(f"[magenic]input number 0-255")
 def h1():
     for mu in ['x','y','z']:
         yield int(yu.inputline(mu))
-
-def h2(mu,object):
-    if mu == 0:
-        yu.printline("[trr]deleteing")
+def h2():
+    if br == 0:
+        prln("[trr]deleteing")
         return 0
     else:
-        yu.callline(f"[trr]puting cube",v)
+        clln(f"[trr]putting cube",sh)
         return 1
 
 def g0():
