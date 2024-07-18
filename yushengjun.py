@@ -1,13 +1,12 @@
 class ysj:
     def __init__(self,theme):
         self.theme = theme
+        print(self.theme)
         self.ind = 1
         self.ash = '|   '
         self.dawn = '\033[0m'
         self.dawn2 = '\033[92m'
         self.dawn4 = '\033[94m'
-    
-    print(f'[{self.theme}]启动！')
     
     def adl(self):
         self.ind += 1
