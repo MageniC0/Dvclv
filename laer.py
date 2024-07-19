@@ -9,7 +9,7 @@ print('[starlit] 1.16.0')
 ind = 1
 ash = '|   '
 
-#
+#value
 br = 1
 
 #text color
@@ -25,7 +25,7 @@ def urln():print('_' * 39)
 def vdln():print(f'{dawn2}{ash*ind}')
 def prln(string):print(f'{dawn2}{ash*ind}{dawn}{string}')
 def inln(string):return input(f'{dawn2}{ash*ind}{dawn}{string}{dawn4}_')
-def clln(string,object):print(f'{dawn2}{ash*ind}{string}{dawn4}{object}')
+def clln(string,object):print(f'{dawn2}{ash*ind}{dawn}{string}{dawn4}{object}')
 
 #h for number input
 def h0(string):
@@ -37,7 +37,7 @@ def h0(string):
 def h1():
     for mu in ['x','y','z']:
         yield int(yu.inputline(mu))
-def h2():
+def h2(sh):
     if br == 0:
         prln("[trr]deleteing")
         return 0
@@ -396,6 +396,4 @@ def laer():
 |_输入文本路径
 |_输入数据路径""")
             s0()
-s0()
-print("[星光]_1.15.1")
 laer()
