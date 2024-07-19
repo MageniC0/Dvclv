@@ -10,14 +10,19 @@ d4 = '\033[94m'
 d5 = '\033[95m'
 
 def l1():
-    print('_')
+    print('_'*68)
 def l2():
     print(f'{d2}{sh*nd}')
 def l3(s):
     print(f'{d2}{sh*nd}{d}{s}')
 def l4(s):
     return input(f'{d2}{sh*nd}{d}{s}{d4}_')
-def l5(s,o):
+def l5():
+    inp = input(f'{d2}{sh*nd}{d4}_')
+    if len(inp) == 0:
+        return "0"
+    return inp
+def l6(s,o):
     print(f'{d2}{sh*nd}{d}{s}{d4}{o}')
 
 #
@@ -32,29 +37,56 @@ def g11():
 def g12():
     ...
 #二级分支
-def f1():
-    ...
-def f2():
-    ...
-def f3():
-    ...
+def f1(ch_):
+    nd += 1
+    l3("[编辑预设]")
+def f2(ch_,tr_):
+    nd += 1
+    l3("[编辑地图册]")
+def f3(tr_,pl_):
+    nd +=1
+    l3("[生成例图]")
+    while True:
+        l2()
+        mu = l5()
 def f4():
-    ...
-#一级分支
-print('[core]on.')
+    nd += 1
+    l3("[检查]")
+    while True:
+        mu = l5()
+def f5():
+    nd += 1
+    l3("[文件转换]")
+    while True:
+        mu = l5()
+
+print('laer v2.0.0-alpha')
+l1()
+#'©2024 Dustormn.All rights reserved.'
+
 while True:
-    ln = input('[core]select line')
-    if len(ln) == 0:print('[core]done.')
+    ln = l5()
+    if ln == "0":
+        print('退出.')
+        break
     elif ln == "1":
-      f1()
+        ch_ = l4('指定预设')
+        f1(ch_)
     elif ln == "2":
-      f2()
+        ch_ = l4('指定预设')
+        tr_ = l4('指定地图册')
+        f2(ch_,tr_)
     elif ln == "3":
-      f3()
+        tr_ = l4('指定地图册')
+        pl_ = l4('指定图形')
+        f3(tr_,pl_)
     elif ln == "4":
-      f4()
+        f4()
+    elif ln == "5":
+        f5()
     else:
-      print("""\033[90m[提示]
+        l1()
+        print("""\033[90m[提示]
 |
 1[编辑预设]
 |_输入预设名
@@ -81,10 +113,18 @@ while True:
 |   |_索引[0~255]
 |
 3[生成例图]
-|_地图册名
-|_文件名
+|   |3.1[生成]
+|   |_地图册名
+|   |_文件名
 |
-4[检查目录]
+|   |3.2[生成并预览]
+|   |_地图册名
+|   |_文件名
+|
+|   |3.3[预览]
+|   |_文件名
+|
+4[检查]
 |   4.1[检查文件]
 |   4.2[检查预设]
 |   |_预设名
@@ -100,3 +140,4 @@ while True:
 |   |_文本路径
 |   |_数据路径
 """)
+        l1()
