@@ -118,8 +118,8 @@ class tr:
         for x in range(x1,x2+1):
             for y in range(y1,y2+1):
                 for z in range(z1,z2+1):
-                    self.ta[x][y][z] = ma
-                    self.tb[x][y][z] = mb
+                    self.ta[x][y][z] = self.ma
+                    self.tb[x][y][z] = self.mb
         self.sv()
     def br(self,mw):
         self.ma=self.ca[mw]
@@ -225,10 +225,6 @@ def dr(n):
                 if cu!=(0,0,0):
                     ly.rectangle([16*x+2,16*y+288*z+2,16*x+17,16*y+288*z+17],fill=cu)
     iy.show()
-def w(ip,n):
-    if ip=="ch":dc(n)
-    elif ip=="tr":dr(n)
-    else:print("\033[93m_")
 
 def main():
     while True:
@@ -239,7 +235,8 @@ def main():
         elif ln == "pt":p()
         elif ln == "ch":c()
         elif ln == "tr":r()
-        elif lm:=re.match(r"cr (\w+) (\w+)",ln):w(lm.group(1),lm.group(2))
+        elif lm:=re.match(r"cc (\w+)",ln):dc(lm.group(1))
+        elif lm:=re.match(r"cr (\w+)",ln):dr(lm.group(1))
         else:print("\033[93m_")
 try:
     main()
