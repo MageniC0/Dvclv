@@ -1,5 +1,6 @@
 import json,re
-with open("0.json","r") as file: n = json.load(file)
+with open("Th7","w") as file: json.dump(qua,file)
+with open(qua+"0.json","r") as file: n = json.load(file)
 
 while True:
     inp = input(str(n)+"_")
@@ -7,10 +8,10 @@ while True:
     if match := re.match(r"(\w+)\s+(\w+)\s+(\d+)", inp):
         name, IP, follow = match.groups()
         follow = int(follow)
-        with open(str(n)+".json","w") as file : json.dump({"name":name,"IP":IP,"follow":follow},file)
+        with open(qua+str(n)+".json","w") as file : json.dump({"name":name,"IP":IP,"follow":follow},file)
         
         n = n + 1
-        with open("n","w") as file: json.dump(n,file)
+        with open(qua+"0.json","w") as file: json.dump(n,file)
     
     else:
         break

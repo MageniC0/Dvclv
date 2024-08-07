@@ -1,5 +1,6 @@
 Fu = 5000
 Fd = 0
+with open("Th7","w") as file: json.dump(qua,file)
 dc = {
     "澳门": "AoMen",
     "安徽": "AnHui",
@@ -76,7 +77,7 @@ import json
 import matplotlib.pyplot as plt
 da = []
 for n in range(1, 161):
-    with open(f'{n}.json', 'r') as f:da.append(json.load(f))
+    with open(qua+f'{n}.json', 'r') as f:da.append(json.load(f))
 
 pf = {}
 for i in da:
