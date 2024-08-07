@@ -1,0 +1,18 @@
+#©2024 Dustormn.All rights reserved.
+0
+Th7 is developed for Dvclv
+1
+connect inf.py at first
+2
+while editing index,connect atinf.py
+3
+edit data form index_value main.py
+4
+view all w.py
+5
+edit located data nedlw.py
+6
+view located data nedl.py
+7
+gruph lue.py
+thats all.
